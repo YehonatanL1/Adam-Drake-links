@@ -2,34 +2,31 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <title>ADAM DRAKE | OFFICIAL GSD</title>
+  <title>ADAM DRAKE | GSD ELITE</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Rajdhani:wght@700&display=swap');
 
     :root {
       --gold: #ffcc00;
-      --gold-glow: rgba(255, 204, 0, 0.5);
+      --kick-green: #00e701;
+      --glow: rgba(255, 204, 0, 0.6);
     }
 
-    /* הגדרות בסיס למרכוז מושלם */
     body, html {
       margin: 0; padding: 0; width: 100%; height: 100vh;
       background: #000; overflow: hidden;
-      display: grid; place-items: center; /* מרכוז מושלם */
+      display: grid; place-items: center;
       font-family: 'Rajdhani', sans-serif;
     }
 
-    /* רקע כוכבים */
-    #star-canvas {
-      position: fixed; inset: 0; z-index: -1;
+    /* אור עכבר ענקי */
+    .mouse-glow {
+      position: fixed; inset: 0; pointer-events: none; z-index: 5;
+      background: radial-gradient(circle 400px at var(--x, 50%) var(--y, 50%), rgba(255, 204, 0, 0.15), transparent 80%);
     }
 
-    /* הילת עכבר (עוקבת אחרי הסמן) */
-    .mouse-glow {
-      position: fixed; inset: 0; pointer-events: none; z-index: 1;
-      background: radial-gradient(circle 180px at var(--x, 50%) var(--y, 50%), rgba(255, 204, 0, 0.12), transparent 80%);
-    }
+    #star-canvas { position: fixed; inset: 0; z-index: -1; }
 
     /* כוכב נופל */
     .shooting-star {
@@ -42,43 +39,40 @@
       100% { transform: translate(800px, 800px) scale(0); opacity: 0; }
     }
 
-    /* הכרטיס המרכזי - יציב וסימטרי */
+    /* כרטיס מרכזי */
     .main-card {
       position: relative; z-index: 10;
       width: 420px; padding: 45px;
-      background: rgba(5, 5, 5, 0.95);
+      background: rgba(5, 5, 5, 0.98);
       border: 2px solid var(--gold);
-      box-shadow: 0 0 40px rgba(0,0,0,1);
+      box-shadow: 0 0 50px rgba(0,0,0,1);
       text-align: center;
-      box-sizing: border-box;
+      animation: card-appear 1s ease-out;
     }
 
-    /* הבזק ברק מאחורי הכרטיס */
-    .lightning-flash {
-      position: absolute; inset: -5px; z-index: -1;
-      border: 2px solid transparent; opacity: 0;
-    }
-    .flash-active {
-      animation: flash-anim 0.15s ease-out;
-    }
-    @keyframes flash-anim {
-      0% { opacity: 0; }
-      50% { opacity: 1; box-shadow: 0 0 60px var(--gold); border-color: #fff; }
-      100% { opacity: 0; }
+    @keyframes card-appear {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
     }
 
-    /* תמונה */
     .profile-box {
       width: 180px; height: 180px; margin: 0 auto 35px;
-      border: 2px solid var(--gold);
-      overflow: hidden; position: relative;
+      border: 3px solid var(--gold);
+      box-shadow: 0 0 20px var(--glow);
+      overflow: hidden;
     }
     .profile-box img { width: 100%; height: 100%; object-fit: cover; }
 
+    /* אנימציית הבהוב לשם */
     .name {
       font-family: 'Orbitron', sans-serif; font-size: 40px;
       margin: 0; color: #fff; letter-spacing: 2px;
-      text-shadow: 0 0 15px var(--gold-glow);
+      text-shadow: 0 0 15px var(--glow);
+      animation: flicker 4s infinite;
+    }
+    @keyframes flicker {
+      0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 15px var(--glow); opacity: 1; }
+      20%, 24%, 55% { text-shadow: none; opacity: 0.8; }
     }
 
     .rank {
@@ -88,30 +82,62 @@
 
     /* כפתורים */
     .btn-stack { display: flex; flex-direction: column; gap: 15px; }
+    
     .btn {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 25px; background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 204, 0, 0.2); color: #fff;
-      text-decoration: none; font-weight: bold; font-size: 18px;
-      transition: 0.25s ease;
+      padding: 18px 25px; background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 204, 0, 0.3); color: #fff;
+      text-decoration: none; font-weight: bold; font-size: 19px;
+      transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .btn:hover {
-      background: var(--gold); color: #000;
-      box-shadow: 0 0 25px var(--gold);
-      transform: scale(1.03);
-    }
-    .btn i { font-size: 20px; }
 
-    /* פוטר */
+    .btn:hover {
+      transform: scale(1.05);
+      border-color: #fff;
+      box-shadow: 0 0 30px var(--glow);
+    }
+
+    /* לוגו KICK ספציפי */
+    .btn-kick:hover {
+      background: var(--kick-green);
+      color: #000;
+      box-shadow: 0 0 30px var(--kick-green);
+    }
+    .btn-kick i { color: var(--kick-green); }
+    .btn-kick:hover i { color: #000; }
+
+    .btn-discord:hover { background: #5865F2; }
+    .btn-yt:hover { background: #FF0000; }
+    .btn-ig:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+
     .footer {
       margin-top: 40px; display: flex; justify-content: space-between;
-      font-size: 11px; color: var(--gold); opacity: 0.8;
-      border-top: 1px solid rgba(255,204,0,0.2); padding-top: 15px;
-      font-family: 'Orbitron', sans-serif;
+      font-size: 11px; color: var(--gold); border-top: 1px solid rgba(255,204,0,0.2);
+      padding-top: 15px; font-family: 'Orbitron', sans-serif;
     }
   </style>
 </head>
 <body>
 
   <canvas id="star-canvas"></canvas>
-  <div class="mouse-glow" id="mouse-
+  <div class="mouse-glow" id="mouse-glow"></div>
+
+  <div class="main-card">
+    <div class="profile-box">
+      <img src="hero.png" alt="ADAM DRAKE">
+    </div>
+
+    <h1 class="name">ADAM DRAKE</h1>
+    <span class="rank">SHERIFF GSD</span>
+
+    <div class="btn-stack">
+      <a href="https://discord.gg/TrvqDRE7DK" class="btn btn-discord">
+        <span>DISCORD</span><i class="fab fa-discord"></i>
+      </a>
+      <a href="https://kick.com/sheriff-drakes" class="btn btn-kick">
+        <span>KICK LIVE</span><i class="fa-solid fa-bolt"></i>
+      </a>
+      <a href="https://www.youtube.com/@sheriffdrakes" class="btn btn-yt">
+        <span>YOUTUBE</span><i class="fab fa-youtube"></i>
+      </a>
+      <a href="
