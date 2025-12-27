@@ -2,156 +2,142 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <title>ADAM DRAKE | GSD ELITE</title>
+  <title>ADAM DRAKE | GSD THUNDER</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Rajdhani:wght@700&display=swap');
 
     :root {
       --gold: #ffcc00;
-      --gold-glow: rgba(255, 204, 0, 0.6);
-      --bg-dark: #000;
+      --gold-glow: rgba(255, 204, 0, 0.8);
+      --bg: #000;
     }
 
     * { box-sizing: border-box; cursor: crosshair; }
 
     body {
-      margin: 0; background: var(--bg-dark); color: #fff;
-      font-family: 'Rajdhani', sans-serif; height: 100vh;
+      margin: 0; background: var(--bg); color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      height: 100vh; overflow: hidden;
       display: flex; align-items: center; justify-content: center;
-      overflow: hidden; perspective: 1000px;
     }
 
-    /* רקע שכבות (נשמה של עומק) */
-    .bg-layer {
-      position: fixed; inset: -10%; width: 120%; height: 120%;
-      background: radial-gradient(circle at center, #111 0%, #000 100%);
+    /* רקע סטטי חזק */
+    .bg-static {
+      position: fixed; inset: 0;
+      background: radial-gradient(circle at center, #151515 0%, #000 100%);
       z-index: -1;
     }
-    .particles {
-      position: fixed; inset: 0;
-      background-image: radial-gradient(var(--gold) 1px, transparent 1px);
-      background-size: 50px 50px; opacity: 0.1; z-index: 0;
-    }
 
-    /* אנימציית "נחיתה מהחלל" */
-    @keyframes entryBlast {
-      0% { transform: scale(5) translateZ(500px); filter: blur(20px); opacity: 0; }
-      100% { transform: scale(1) translateZ(0); filter: blur(0); opacity: 1; }
+    /* אנימציית ברקים סביב הכרטיס */
+    @keyframes lightning-border {
+      0%, 100% { box-shadow: 0 0 20px var(--gold-glow), inset 0 0 10px var(--gold-glow); }
+      10%, 90% { box-shadow: 0 0 40px var(--gold), inset 0 0 20px var(--gold); }
+      15% { box-shadow: 0 0 80px #fff, inset 0 0 40px #fff; }
     }
 
     .main-container {
-      position: relative; z-index: 10;
-      width: 480px; text-align: center;
-      animation: entryBlast 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative; width: 480px; padding: 50px;
+      background: rgba(10, 10, 10, 0.95);
+      border: 2px solid var(--gold);
+      text-align: center;
+      animation: lightning-border 4s infinite; /* הברקים של הכרטיס */
     }
 
-    /* תמונה עם מסגרת אנרגיה */
-    .profile-container {
+    /* תמונת פרופיל עם ברקים */
+    .profile-box {
       position: relative; width: 180px; height: 180px; margin: 0 auto 30px;
-      padding: 10px; border: 2px solid var(--gold);
-      clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
-      background: rgba(255, 204, 0, 0.05);
+      border: 3px solid var(--gold); overflow: hidden;
+      box-shadow: 0 0 20px var(--gold-glow);
     }
-    .profile-img { 
-      width: 100%; height: 100%; object-fit: cover; 
-      clip-path: inherit; filter: grayscale(20%) contrast(1.1);
+    .profile-img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* שכבת הברקים שרצה על התמונה */
+    .lightning-effect {
+      position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(45deg, transparent 45%, #fff 50%, transparent 55%);
+      background-size: 200% 200%;
+      animation: lightning-strike 3s infinite;
+      opacity: 0;
+    }
+    @keyframes lightning-strike {
+      0% { transform: translateX(-100%) translateY(-100%); opacity: 0; }
+      5% { opacity: 1; }
+      10% { transform: translateX(100%) translateY(100%); opacity: 0; }
+      100% { transform: translateX(100%) translateY(100%); opacity: 0; }
     }
 
-    /* שם עם אפקט גליץ' */
-    .glitch-name {
-      font-family: 'Orbitron', sans-serif; font-size: 45px; font-weight: 900;
-      letter-spacing: 4px; margin: 0; color: #fff;
-      text-shadow: 2px 2px var(--gold-glow);
-      position: relative;
+    .name {
+      font-family: 'Orbitron', sans-serif; font-size: 45px;
+      margin: 0; color: #fff; text-shadow: 0 0 15px var(--gold);
     }
 
-    .rank-tag {
-      font-size: 14px; letter-spacing: 10px; color: var(--gold);
-      margin-bottom: 40px; text-transform: uppercase;
-      opacity: 0.8; font-weight: bold;
+    .rank {
+      color: var(--gold); letter-spacing: 8px; font-size: 14px;
+      margin-bottom: 40px; display: block;
     }
 
-    /* כפתורי זיג-זג עם נשמה */
-    .link-stack { display: flex; flex-direction: column; gap: 15px; }
-    
+    /* כפתורי הזיג-זג */
+    .links { display: flex; flex-direction: column; gap: 15px; }
     .btn {
-      position: relative; display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 30px; background: rgba(20, 20, 20, 0.8);
-      border-left: 5px solid var(--gold); border-right: 1px solid rgba(255,204,0,0.2);
-      color: #fff; text-decoration: none; font-weight: 700; font-size: 18px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 25px; background: #111;
+      border: 1px solid var(--gold); color: #fff;
+      text-decoration: none; font-weight: bold; font-size: 18px;
+      transition: 0.3s;
     }
-
-    /* כניסת זיג-זג */
-    .btn:nth-child(odd) { transform: translateX(-50px); opacity: 0; animation: slideIn 0.5s forwards 0.8s; }
-    .btn:nth-child(even) { transform: translateX(50px); opacity: 0; animation: slideIn 0.5s forwards 1s; }
-    @keyframes slideIn { to { transform: translateX(0); opacity: 1; } }
+    
+    /* כניסת זיג-זג סטטית (בלי עכבר) */
+    .btn:nth-child(odd) { transform: translateX(-15px); }
+    .btn:nth-child(even) { transform: translateX(15px); }
 
     .btn:hover {
       background: var(--gold); color: #000;
-      box-shadow: -10px 0 20px var(--gold-glow);
-      transform: scale(1.05) translateX(10px);
+      transform: scale(1.05) translateX(0);
+      box-shadow: 0 0 30px var(--gold);
     }
 
-    /* לוגואים בעיצוב "נקי וחד" */
-    .btn i { font-size: 24px; color: var(--gold); transition: 0.3s; }
-    .btn:hover i { color: #000; transform: rotate(-10deg) scale(1.2); }
+    .btn i { font-size: 22px; }
 
-    /* שעון בתחתית */
     .footer {
-      margin-top: 50px; font-family: 'Orbitron', sans-serif;
-      font-size: 12px; color: var(--gold); display: flex;
-      justify-content: space-between; border-top: 1px solid rgba(255,204,0,0.2);
-      padding-top: 15px;
+      margin-top: 40px; display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--gold); border-top: 1px solid #333;
+      padding-top: 15px; font-family: 'Orbitron', sans-serif;
     }
 
-    /* אפקט רעידה (Shake) בלחיצה */
-    .impact { animation: shake 0.2s ease-in-out; }
-    @keyframes shake {
-      0%, 100% { transform: translate(0,0); }
-      25% { transform: translate(-5px, 5px); }
-      75% { transform: translate(5px, -5px); }
-    }
   </style>
 </head>
-<body id="main">
+<body>
 
-  <div class="bg-layer" id="bg"></div>
-  <div class="particles"></div>
+  <div class="bg-static"></div>
 
-  <div class="main-container" id="container">
-    <div class="profile-container" onclick="triggerImpact()">
-      <img src="hero.png" class="profile-img">
+  <div class="main-container">
+    <div class="profile-box">
+      <div class="lightning-effect"></div> <img src="hero.png" class="profile-img">
     </div>
 
-    <h1 class="glitch-name">ADAM DRAKE</h1>
-    <div class="rank-tag">SHERIFF GSD</div>
+    <h1 class="name">ADAM DRAKE</h1>
+    <span class="rank">SHERIFF GSD</span>
 
-    <div class="link-stack">
-      <a href="https://discord.gg/TrvqDRE7DK" class="btn" onclick="triggerImpact()">
-        <span>DISCORD / COMMS</span>
-        <i class="fab fa-discord"></i>
+    <div class="links">
+      <a href="https://discord.gg/TrvqDRE7DK" class="btn">
+        <span>DISCORD COMMS</span><i class="fab fa-discord"></i>
       </a>
-      <a href="https://kick.com/sheriff-drakes" class="btn" onclick="triggerImpact()">
-        <span>KICK / LIVE</span>
-        <i class="fa-solid fa-bolt"></i>
+      <a href="https://kick.com/sheriff-drakes" class="btn">
+        <span>KICK LIVE</span><i class="fa-solid fa-bolt"></i>
       </a>
-      <a href="https://www.youtube.com/@sheriffdrakes" class="btn" onclick="triggerImpact()">
-        <span>YOUTUBE / DATA</span>
-        <i class="fab fa-youtube"></i>
+      <a href="https://www.youtube.com/@sheriffdrakes" class="btn">
+        <span>DATA ARCHIVE</span><i class="fab fa-youtube"></i>
       </a>
-      <a href="https://www.instagram.com/adam.drakes" class="btn" onclick="triggerImpact()">
-        <span>INSTAGRAM / FEED</span>
-        <i class="fab fa-instagram"></i>
+      <a href="https://www.instagram.com/adam.drakes" class="btn">
+        <span>INTEL FEED</span><i class="fab fa-instagram"></i>
       </a>
     </div>
 
     <div class="footer">
-      <span>UNIT: S-01</span>
+      <span>UNIT S-01</span>
       <span id="clock">00:00:00</span>
-      <span>STATUS: ELITE</span>
+      <span>ACTIVE</span>
     </div>
   </div>
 
@@ -163,21 +149,7 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // הטיה ותנועת רקע (Parallax)
-    document.addEventListener('mousemove', (e) => {
-      const x = (window.innerWidth / 2 - e.clientX) / 40;
-      const y = (window.innerHeight / 2 - e.clientY) / 40;
-      
-      document.getElementById('container').style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
-      document.getElementById('bg').style.transform = `translate(${x*2}px, ${y*2}px) scale(1.1)`;
-    });
-
-    // אפקט מכה/שקשוק
-    function triggerImpact() {
-      const c = document.getElementById('container');
-      c.classList.add('impact');
-      setTimeout(() => c.classList.remove('impact'), 200);
-    }
+    // הסרנו את כל קוד ה-mousemove שהיה מזיז את האתר
   </script>
 </body>
 </html>
