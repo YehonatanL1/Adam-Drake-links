@@ -2,14 +2,14 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <title>ADAM DRAKE | GSD OFFICIAL</title>
+  <title>ADAM DRAKE | GSD ELITE</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&display=swap');
 
     :root {
       --gold: #ffcc00;
-      --gold-glow: rgba(255, 204, 0, 0.25);
+      --gold-glow: rgba(255, 204, 0, 0.3);
     }
 
     body, html {
@@ -19,43 +19,42 @@
       font-family: 'Rajdhani', sans-serif;
     }
 
-    /* אור עכבר ענקי שמאיר את הכל */
+    /* אור עכבר ענקי */
     .mouse-glow {
       position: fixed; inset: 0; pointer-events: none; z-index: 50;
       background: radial-gradient(circle 500px at var(--x, 50%) var(--y, 50%), var(--gold-glow), transparent 80%);
     }
 
-    /* רקע כוכבים */
-    #star-canvas { position: fixed; inset: 0; z-index: -1; opacity: 0.5; }
+    /* רקע כוכבים מאסיבי */
+    #star-canvas { position: fixed; inset: 0; z-index: -1; opacity: 0.7; }
 
-    /* כוכב נופל */
+    /* כוכבים נופלים בתדירות גבוהה */
     .shooting-star {
       position: absolute; width: 3px; height: 3px; background: #fff;
       box-shadow: 0 0 15px #fff; border-radius: 50%; pointer-events: none;
-      z-index: 1; animation: shoot 1.5s linear forwards;
+      z-index: 1; animation: shoot 1.2s linear forwards;
     }
     @keyframes shoot {
       0% { transform: translate(0, 0) scale(1); opacity: 1; }
-      100% { transform: translate(600px, 600px) scale(0); opacity: 0; }
+      100% { transform: translate(700px, 700px) scale(0); opacity: 0; }
     }
 
-    /* קונטיינר מרכזי עם אנימציית כניסה (זיגזג מצד ימין) */
+    /* כרטיס עם אנימציית כניסה זיגזג */
     .main-card {
       position: relative; z-index: 10;
       width: 420px; padding: 60px 45px;
-      background: rgba(8, 8, 8, 0.96);
+      background: rgba(6, 6, 6, 0.96);
       border: 1.5px solid var(--gold);
       border-radius: 12px; text-align: center;
-      box-shadow: 0 0 60px rgba(0,0,0,1);
-      animation: entry-card 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      box-shadow: 0 0 70px rgba(0,0,0,1);
+      animation: entry-card 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
     @keyframes entry-card {
-      0% { opacity: 0; transform: translateX(100px) scale(0.9); }
-      100% { opacity: 1; transform: translateX(0) scale(1); }
+      0% { opacity: 0; transform: translateX(120px); }
+      100% { opacity: 1; transform: translateX(0); }
     }
 
-    /* מסגרת תמונה */
     .img-wrap {
       width: 150px; height: 150px; margin: 0 auto 35px;
       border: 1px solid var(--gold); padding: 5px; border-radius: 10px;
@@ -67,9 +66,9 @@
     .img-box img { width: 100%; height: 100%; object-fit: cover; }
 
     .name {
-      font-family: 'Orbitron', sans-serif; font-size: 38px;
+      font-family: 'Orbitron', sans-serif; font-size: 40px;
       margin: 0; color: #fff; letter-spacing: 2px;
-      text-shadow: 0 0 15px var(--gold-glow);
+      text-shadow: 0 0 20px var(--gold-glow);
     }
 
     .rank {
@@ -77,58 +76,56 @@
       margin-bottom: 40px; display: block; font-weight: bold;
     }
 
-    /* כפתורים עם אנימציית זיגזג (מגיעים מצד שמאל) */
+    /* כפתורים שמגיעים מהצד השני (זיגזג) */
     .btn-list { display: flex; flex-direction: column; gap: 12px; }
     
     .btn {
       display: flex; align-items: center; justify-content: space-between;
       padding: 18px 25px; background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 204, 0, 0.1); color: #fff;
-      text-decoration: none; font-weight: 700; font-size: 16px;
-      transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-decoration: none; font-weight: 700; font-size: 17px;
       border-radius: 4px; opacity: 0;
       animation: entry-btns 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
-    /* זיגזג לכפתורים - השהיה לכל כפתור */
-    .btn:nth-child(1) { animation-delay: 0.8s; transform: translateX(-50px); }
-    .btn:nth-child(2) { animation-delay: 1.0s; transform: translateX(-50px); }
-    .btn:nth-child(3) { animation-delay: 1.2s; transform: translateX(-50px); }
-    .btn:nth-child(4) { animation-delay: 1.4s; transform: translateX(-50px); }
+    /* השהיית כניסה לכפתורים */
+    .btn:nth-child(1) { animation-delay: 0.6s; }
+    .btn:nth-child(2) { animation-delay: 0.8s; }
+    .btn:nth-child(3) { animation-delay: 1.0s; }
+    .btn:nth-child(4) { animation-delay: 1.2s; }
 
     @keyframes entry-btns {
-      0% { opacity: 0; transform: translateX(-50px); }
+      0% { opacity: 0; transform: translateX(-80px); }
       100% { opacity: 1; transform: translateX(0); }
     }
 
     .btn:hover {
-      background: rgba(255, 204, 0, 0.1);
+      background: rgba(255, 204, 0, 0.12);
       border-color: var(--gold);
-      box-shadow: 0 0 20px var(--gold-glow);
-      transform: scale(1.03);
+      transform: scale(1.02) translateY(-2px);
+      box-shadow: 0 5px 20px rgba(255,204,0,0.1);
     }
 
     .btn i { font-size: 18px; color: var(--gold); }
 
-    /* פוטר - רק שעון */
     .footer {
       margin-top: 50px; border-top: 1px solid rgba(255,204,0,0.15);
       padding-top: 20px; display: flex; justify-content: center;
     }
 
     #clock {
-      font-family: 'Orbitron', sans-serif; font-size: 14px;
-      color: var(--gold); letter-spacing: 2px; opacity: 0.8;
+      font-family: 'Orbitron', sans-serif; font-size: 15px;
+      color: var(--gold); letter-spacing: 2px;
     }
 
-    /* הבזק ברק רנדומלי */
-    .lightning-box {
-      position: absolute; inset: 0; z-index: -1; opacity: 0;
+    /* ברקים */
+    .lightning-flash {
+      position: absolute; inset: 0; z-index: -1; border-radius: 12px; opacity: 0;
     }
-    .flash { animation: lightning-anim 0.2s ease-out; }
-    @keyframes lightning-anim {
+    .flash-on { animation: flash-anim 0.2s ease-out; }
+    @keyframes flash-anim {
       0% { opacity: 0; }
-      50% { opacity: 1; box-shadow: 0 0 50px #fff; }
+      50% { opacity: 1; box-shadow: 0 0 60px #fff; }
       100% { opacity: 0; }
     }
   </style>
@@ -139,7 +136,7 @@
   <div class="mouse-glow" id="mouse-glow"></div>
 
   <div class="main-card">
-    <div class="lightning-box" id="lightning"></div>
+    <div class="lightning-flash" id="bolt"></div>
     
     <div class="img-wrap">
       <div class="img-box">
@@ -184,14 +181,22 @@
       glow.style.setProperty('--y', e.clientY + 'px');
     });
 
-    // כוכבים
+    // מערכת כוכבים מאסיבית (400 כוכבים)
     const canvas = document.getElementById('star-canvas');
     const ctx = canvas.getContext('2d');
     let stars = [];
     function init() {
       canvas.width = window.innerWidth; canvas.height = window.innerHeight;
       stars = [];
-      for(let i=0; i<120; i++) stars.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, size:Math.random()*1.8, o:Math.random(), v:Math.random()*0.01 + 0.002});
+      for(let i=0; i<400; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2,
+          o: Math.random(),
+          v: Math.random() * 0.03 + 0.01 // מהירות ניצנוץ גבוהה
+        });
+      }
     }
     function draw() {
       ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -204,22 +209,22 @@
     }
     window.addEventListener('resize', init); init(); draw();
 
-    // כוכב נופל רנדומלי
+    // כוכבים נופלים בתדירות גבוהה (כל 2 שניות)
     setInterval(() => {
       const s = document.createElement('div');
       s.className = 'shooting-star';
-      s.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+      s.style.left = Math.random() * (window.innerWidth - 300) + 'px';
       s.style.top = Math.random() * (window.innerHeight / 2) + 'px';
       document.body.appendChild(s);
-      setTimeout(() => s.remove(), 1500);
-    }, 5000);
+      setTimeout(() => s.remove(), 1200);
+    }, 2000);
 
-    // ברקים רנדומליים
+    // ברקים
     setInterval(() => {
-      if(Math.random() > 0.8) {
-        const l = document.getElementById('lightning');
-        l.classList.add('flash');
-        setTimeout(() => l.classList.remove('flash'), 200);
+      if(Math.random() > 0.7) {
+        const b = document.getElementById('bolt');
+        b.classList.add('flash-on');
+        setTimeout(() => b.classList.remove('flash-on'), 200);
       }
     }, 4000);
   </script>
