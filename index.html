@@ -2,55 +2,57 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <title>ADAM DRAKE | GSD ELITE</title>
+  <title>ADAM DRAKE | GSD OFFICIAL</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&display=swap');
 
     :root {
       --gold: #ffcc00;
-      --gold-glow: rgba(255, 204, 0, 0.35);
+      --gold-glow: rgba(255, 204, 0, 0.4);
     }
 
     body, html {
       margin: 0; padding: 0; width: 100%; height: 100vh;
-      background: #000; overflow: hidden;
+      /* רקע ערפילית מוזהבת */
+      background: radial-gradient(circle at 50% 50%, #1a1500 0%, #080808 60%, #000 100%);
+      overflow: hidden;
       display: grid; place-items: center;
       font-family: 'Rajdhani', sans-serif;
     }
 
-    /* רקע Grid טכנולוגי מאחור */
-    .bg-grid {
+    /* שכבת ענני זהב עדינים (Nebula) */
+    .nebula {
       position: fixed; inset: 0;
-      background-image: linear-gradient(var(--gold-glow) 1px, transparent 1px), 
-                        linear-gradient(90deg, var(--gold-glow) 1px, transparent 1px);
-      background-size: 50px 50px;
-      opacity: 0.05; z-index: -2;
-      transform: perspective(500px) rotateX(60deg) translateY(var(--ty, 0));
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 204, 0, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255, 204, 0, 0.05) 0%, transparent 40%);
+      filter: blur(60px);
+      z-index: -2;
     }
 
-    /* אור עכבר ענקי */
+    /* אור עכבר */
     .mouse-glow {
       position: fixed; inset: 0; pointer-events: none; z-index: 50;
       background: radial-gradient(circle 600px at var(--x, 50%) var(--y, 50%), var(--gold-glow), transparent 80%);
     }
 
-    #star-canvas { position: fixed; inset: 0; z-index: -1; opacity: 0.8; }
+    #star-canvas { position: fixed; inset: 0; z-index: -1; opacity: 0.9; }
 
-    /* אנימציית זיגזג לכרטיס (מגיע מימין) */
+    /* אנימציית זיגזג לכרטיס הראשי */
     .main-card {
       position: relative; z-index: 10;
       width: 420px; padding: 50px 40px;
-      background: rgba(5, 5, 5, 0.98);
+      background: rgba(0, 0, 0, 0.9);
       border: 1.5px solid var(--gold);
       border-radius: 12px; text-align: center;
-      box-shadow: 0 0 80px rgba(0,0,0,1);
+      box-shadow: 0 0 100px rgba(0,0,0,1), 0 0 20px var(--gold-glow);
       animation: zig-right 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     @keyframes zig-right {
-      0% { opacity: 0; transform: translateX(200px) skewX(-5deg); }
-      100% { opacity: 1; transform: translateX(0) skewX(0); }
+      0% { opacity: 0; transform: translateX(150px); }
+      100% { opacity: 1; transform: translateX(0); }
     }
 
     .img-wrap {
@@ -66,6 +68,7 @@
     .name {
       font-family: 'Orbitron', sans-serif; font-size: 38px;
       margin: 0; color: #fff; letter-spacing: 2px;
+      text-shadow: 0 0 10px var(--gold);
     }
 
     .rank {
@@ -73,13 +76,13 @@
       margin-bottom: 35px; display: block; font-weight: bold;
     }
 
-    /* כפתורים בזיגזג (מגיעים משמאל) */
+    /* כפתורים בזיגזג */
     .btn-list { display: flex; flex-direction: column; gap: 12px; }
     
     .btn {
       display: flex; align-items: center; justify-content: space-between;
       padding: 16px 22px; background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 204, 0, 0.1); color: #fff;
+      border: 1px solid rgba(255, 204, 0, 0.2); color: #fff;
       text-decoration: none; font-weight: 700; font-size: 16px;
       border-radius: 4px; opacity: 0;
       animation: zig-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -91,26 +94,25 @@
     .btn:nth-child(4) { animation-delay: 1.4s; }
 
     @keyframes zig-left {
-      0% { opacity: 0; transform: translateX(-150px) skewX(5deg); }
-      100% { opacity: 1; transform: translateX(0) skewX(0); }
+      0% { opacity: 0; transform: translateX(-100px); }
+      100% { opacity: 1; transform: translateX(0); }
     }
 
     .btn:hover {
       background: rgba(255, 204, 0, 0.15);
       border-color: var(--gold);
-      transform: scale(1.05);
+      transform: scale(1.03);
     }
 
-    /* פוטר בזיגזג (מלמטה) */
     .footer {
-      margin-top: 40px; border-top: 1px solid rgba(255,204,0,0.15);
+      margin-top: 40px; border-top: 1px solid rgba(255,204,0,0.2);
       padding-top: 20px; text-align: center;
-      opacity: 0; animation: zig-up 1s ease forwards 1.8s;
+      opacity: 0; animation: fade-in 1s ease forwards 1.8s;
     }
 
-    @keyframes zig-up {
-      0% { opacity: 0; transform: translateY(50px); }
-      100% { opacity: 0.9; transform: translateY(0); }
+    @keyframes fade-in {
+      0% { opacity: 0; }
+      100% { opacity: 0.8; }
     }
 
     .gsd-text {
@@ -122,24 +124,18 @@
       font-family: 'Orbitron', sans-serif; font-size: 13px;
       color: #fff; opacity: 0.7; letter-spacing: 2px;
     }
-
-    .lightning { position: absolute; inset: 0; z-index: -1; opacity: 0; border-radius: 12px; }
-    .flash { animation: hit 0.15s ease-out; }
-    @keyframes hit { 0%, 100% { opacity: 0; } 50% { opacity: 1; box-shadow: inset 0 0 50px #fff; } }
   </style>
 </head>
 <body>
 
-  <div class="bg-grid" id="grid"></div>
+  <div class="nebula"></div>
   <canvas id="star-canvas"></canvas>
   <div class="mouse-glow" id="mouse-glow"></div>
 
   <div class="main-card">
-    <div class="lightning" id="bolt"></div>
-    
     <div class="img-wrap">
       <div class="img-box">
-        <img src="hero.png" alt="ADAM DRAKE">
+        <img src="hero.png" alt="DRAKE">
       </div>
     </div>
 
@@ -175,11 +171,8 @@
 
     document.addEventListener('mousemove', (e) => {
       const glow = document.getElementById('mouse-glow');
-      const grid = document.getElementById('grid');
       glow.style.setProperty('--x', e.clientX + 'px');
       glow.style.setProperty('--y', e.clientY + 'px');
-      // הזזת הרקע עם העכבר
-      grid.style.setProperty('--ty', (e.clientY * 0.05) + 'px');
     });
 
     const canvas = document.getElementById('star-canvas');
@@ -188,7 +181,15 @@
     function init() {
       canvas.width = window.innerWidth; canvas.height = window.innerHeight;
       stars = [];
-      for(let i=0; i<800; i++) stars.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, size:Math.random()*1.8, o:Math.random(), v:Math.random()*0.04+0.01});
+      for(let i=0; i<600; i++) {
+        stars.push({
+          x: Math.random()*canvas.width, 
+          y: Math.random()*canvas.height, 
+          size: Math.random()*2, 
+          o: Math.random(), 
+          v: Math.random()*0.02+0.01
+        });
+      }
     }
     function draw() {
       ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -200,14 +201,6 @@
       requestAnimationFrame(draw);
     }
     window.addEventListener('resize', init); init(); draw();
-
-    setInterval(() => {
-      if(Math.random() > 0.6) {
-        const b = document.getElementById('bolt');
-        b.classList.add('flash');
-        setTimeout(() => b.classList.remove('flash'), 150);
-      }
-    }, 3500);
   </script>
 </body>
 </html>
