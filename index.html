@@ -2,191 +2,223 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ADAM DRAKE | GSD ELITE</title>
+  <title>GSD | UNIT S-01 DISPATCH</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;900&display=swap" rel="stylesheet">
-  
   <style>
-    :root {
-      --gold: #c5a059;
-      --accent: #ffd700;
-      --glass: rgba(255, 255, 255, 0.03);
-      --border: rgba(197, 160, 89, 0.3);
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
 
-    * { box-sizing: border-box; cursor: none; } /* עכבר מותאם אישית */
+    :root {
+      --gsd-gold: #d4af37;
+      --police-blue: #00204a;
+      --emergency-red: #8b0000;
+    }
 
     body {
-      margin: 0; padding: 0; height: 100vh;
-      background: radial-gradient(circle at center, #111 0%, #000 100%);
-      color: #fff; font-family: 'Inter', sans-serif;
+      margin: 0; background: #050505; color: #00ff41; /* צבע טרמינל */
+      font-family: 'Courier Prime', monospace;
+      height: 100vh; overflow: hidden;
       display: flex; align-items: center; justify-content: center;
-      overflow: hidden; perspective: 1000px;
     }
 
-    /* סמן עכבר מיוחד */
-    .cursor {
-      position: fixed; width: 40px; height: 40px; border: 1px solid var(--gold);
-      border-radius: 50%; pointer-events: none; z-index: 1000;
-      transition: transform 0.1s ease; transform: translate(-50%, -50%);
+    /* השתקפות ניידת על המסך */
+    .patrol-lights {
+      position: fixed; inset: 0; pointer-events: none; z-index: 1;
+      opacity: 0.15;
+      background: linear-gradient(90deg, var(--emergency-red), transparent, var(--police-blue));
+      animation: patrol-sweep 4s infinite alternate;
     }
-    .cursor::after {
-      content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
-      background: var(--gold); border-radius: 50%; transform: translate(-50%, -50%);
-    }
+    @keyframes patrol-sweep { 0% { opacity: 0.1; } 100% { opacity: 0.3; } }
 
-    /* רקע חלקיקים עמוק */
-    #bg-layers { position: fixed; inset: 0; z-index: 1; }
-
-    /* אנימציית בנייה של הכרטיס */
-    @keyframes cardBuild {
-      0% { width: 0; height: 2px; opacity: 0; }
-      50% { width: 450px; height: 2px; opacity: 1; }
-      100% { width: 450px; height: 600px; opacity: 1; }
+    /* שכבת רעש וסטטיק */
+    .vhs-overlay {
+      position: fixed; inset: 0; z-index: 10;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Noise_Texture.png');
+      opacity: 0.04; pointer-events: none;
     }
 
-    .main-frame {
-      position: relative; z-index: 10;
-      width: 450px; height: 600px;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(30px);
-      border: 1px solid var(--border);
-      display: flex; flex-direction: column; align-items: center; padding: 40px;
-      animation: cardBuild 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-      overflow: hidden;
+    .mdt-container {
+      position: relative; z-index: 5;
+      width: 950px; height: 600px;
+      background: #0a0a0a;
+      border: 4px solid #1a1a1a;
+      box-shadow: 0 0 40px #000;
+      display: grid; grid-template-columns: 350px 1fr;
+      padding: 20px; gap: 20px;
+      transform: rotateX(5deg);
     }
 
-    /* תוכן שמופיע אחרי הבנייה */
-    .content { opacity: 0; animation: fadeIn 0.8s 1.2s forwards; width: 100%; }
-    @keyframes fadeIn { to { opacity: 1; } }
-
-    /* תמונה בתוך כוונת */
-    .profile-hex {
-      position: relative; width: 140px; height: 140px; margin: 0 auto 30px;
-      border: 1px solid var(--gold); transition: 0.5s;
+    /* Bodycam Interface */
+    .bodycam-view {
+      position: relative; background: #000;
+      border: 1px solid #333; overflow: hidden;
     }
-    .profile-hex img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
-    .reticle {
-      position: absolute; inset: -10px; border: 1px solid var(--gold);
-      opacity: 0.3; animation: rotateReticle 10s infinite linear;
+    .bodycam-view img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(0.5) sepia(0.2) contrast(1.3);
     }
-    @keyframes rotateReticle { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-    .name { font-weight: 900; font-size: 32px; letter-spacing: 2px; margin: 0; text-align: center; }
-    .rank { font-size: 10px; color: var(--gold); letter-spacing: 8px; margin-bottom: 40px; text-align: center; }
-
-    /* כפתורי הייטק */
-    .btn-stack { display: grid; gap: 12px; width: 100%; }
-    .btn {
-      position: relative; padding: 18px; background: var(--glass);
-      border: 1px solid var(--border); border-radius: 4px;
-      color: #fff; text-decoration: none; font-size: 13px; font-weight: 300;
-      display: flex; justify-content: space-between; align-items: center;
-      transition: all 0.3s; overflow: hidden;
+    .axon-meta {
+      position: absolute; top: 10px; left: 10px;
+      font-size: 10px; color: #fff; text-shadow: 1px 1px #000;
+      line-height: 1.4;
     }
-    .btn:hover {
-      background: rgba(197, 160, 89, 0.1);
-      border-color: var(--gold);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    .rec-dot {
+      display: inline-block; width: 8px; height: 8px;
+      background: red; border-radius: 50%; margin-left: 5px;
+      animation: blink 1s infinite;
     }
-    .btn::before {
-      content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 2px;
-      background: var(--gold); transform: scaleY(0); transition: 0.3s;
+
+    /* Main Dispatch Area */
+    .dispatch-info {
+      display: flex; flex-direction: column;
+      border-right: 1px solid #222; padding-right: 20px;
     }
-    .btn:hover::before { transform: scaleY(1); }
+    .system-header {
+      border-bottom: 2px solid var(--gsd-gold);
+      padding-bottom: 10px; margin-bottom: 20px;
+    }
+    .system-header h1 {
+      margin: 0; font-size: 28px; color: var(--gsd-gold);
+      text-transform: uppercase; letter-spacing: -1px;
+    }
 
-    .btn i { font-size: 18px; color: var(--gold); }
+    /* Links - Modern but Gritty */
+    .ops-menu { list-style: none; padding: 0; margin: 0; }
+    .op-btn {
+      display: flex; align-items: center; gap: 15px;
+      padding: 15px; border: 1px solid #222;
+      margin-bottom: 10px; text-decoration: none; color: #00ff41;
+      transition: 0.2s; background: rgba(0,255,65,0.02);
+    }
+    .op-btn:hover {
+      background: var(--gsd-gold); color: #000;
+      border-color: #fff; transform: translateX(-5px);
+    }
 
-    /* פוטר נקי */
-    .bottom-bar {
-      margin-top: auto; width: 100%; display: flex; justify-content: space-between;
-      font-size: 9px; color: var(--gold); letter-spacing: 1px;
-      border-top: 1px solid var(--border); padding-top: 20px;
+    /* Terminal Log */
+    .terminal-log {
+      margin-top: auto; height: 120px;
+      font-size: 11px; color: #008f11;
+      overflow: hidden; border-top: 1px solid #222;
+      padding-top: 10px;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+
+    .scanline {
+      position: absolute; width: 100%; height: 2px;
+      background: rgba(0, 255, 65, 0.1);
+      top: 0; animation: scanline 4s infinite linear;
     }
   </style>
 </head>
-<body>
+<body onclick="startRadio()">
 
-  <div class="cursor" id="cursor"></div>
-  <canvas id="bg-layers"></canvas>
+  <div class="patrol-lights"></div>
+  <div class="vhs-overlay"></div>
 
-  <div class="main-frame" id="card">
-    <div class="content">
-      <div class="profile-hex">
-        <div class="reticle"></div>
-        <img src="hero.png" alt="Adam Drake">
+  <div class="mdt-container" id="mdt">
+    <div class="dispatch-info">
+      <div class="bodycam-view">
+        <div class="scanline"></div>
+        <div class="axon-meta">
+          AXON BODY 3: X83021<br>
+          <span id="cam-time"></span><br>
+          USER: DRAKE, ADAM [S-01]<br>
+          <span class="rec-dot"></span> REC
+        </div>
+        <img src="hero.png" alt="SHERIFF">
+      </div>
+      
+      <div class="terminal-log" id="log">
+        > SYSTEM BOOT COMPLETE...<br>
+        > CONNECTING TO GRAPESEED DISPATCH...<br>
+        > UNIT S-01 STATUS: 10-8...<br>
+        > ENCRYPTION ENABLED...
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column;">
+      <div class="system-header">
+        <h1>GSD COMMAND TERMINAL</h1>
+        <div style="font-size: 10px; color: #666;">SECURE LINE // AUTH_LEVEL: SHERIFF</div>
       </div>
 
-      <h1 class="name">ADAM DRAKE</h1>
-      <div class="rank">GSD SPECIAL OPERATIONS</div>
+      <nav class="ops-menu">
+        <a href="https://discord.gg/TrvqDRE7DK" class="op-btn">
+          <i class="fab fa-discord"></i> <span>[01] SECURE_COMMS / DISCORD</span>
+        </a>
+        <a href="https://kick.com/sheriff-drakes" class="op-btn">
+          <i class="fa-solid fa-tower-broadcast"></i> <span>[02] LIVE_PATROL / KICK</span>
+        </a>
+        <a href="https://www.youtube.com/@sheriffdrakes" class="op-btn">
+          <i class="fab fa-youtube"></i> <span>[03] EVIDENCE_ARCHIVE / YT</span>
+        </a>
+        <a href="https://www.instagram.com/adam.drakes" class="op-btn">
+          <i class="fab fa-instagram"></i> <span>[04] FIELD_REPORTS / IG</span>
+        </a>
+      </nav>
 
-      <div class="btn-stack">
-        <a href="https://discord.gg/TrvqDRE7DK" class="btn">
-          <span>SECURE CHANNEL</span><i class="fab fa-discord"></i>
-        </a>
-        <a href="https://kick.com/sheriff-drakes" class="btn">
-          <span>LIVE BROADCAST</span><i class="fa-solid fa-tower-broadcast"></i>
-        </a>
-        <a href="https://www.youtube.com/@sheriffdrakes" class="btn">
-          <span>INTEL ARCHIVE</span><i class="fab fa-youtube"></i>
-        </a>
-        <a href="https://www.instagram.com/adam.drakes" class="btn">
-          <span>FIELD RECORDS</span><i class="fab fa-instagram"></i>
-        </a>
-      </div>
-
-      <div class="bottom-bar">
-        <span id="date">27.12.2025</span>
-        <span id="time">00:00:00</span>
-        <span>AUTH_BY_GSD</span>
+      <div style="margin-top: auto; font-size: 10px; border: 1px solid #222; padding: 10px;">
+        <span style="color: var(--gsd-gold);">ALERT:</span> 10-11 IN PROGRESS NEAR O'NEIL FARM...
       </div>
     </div>
   </div>
 
   <script>
-    // עכבר מותאם אישית
-    const cursor = document.getElementById('cursor');
+    // עדכון זמן מצלמת גוף
+    function updateCamTime() {
+      const now = new Date();
+      const timeStr = now.toISOString().replace('T', ' ').substring(0, 19) + "Z";
+      document.getElementById('cam-time').innerText = timeStr;
+    }
+    setInterval(updateCamTime, 1000);
+    updateCamTime();
+
+    // אפקט הטיה של המסך
     document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-      
-      // הטיה תלת ממדית חלקה מאוד
-      const x = (window.innerWidth / 2 - e.clientX) / 60;
-      const y = (window.innerHeight / 2 - e.clientY) / 60;
-      document.getElementById('card').style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+      const x = (window.innerWidth / 2 - e.clientX) / 70;
+      const y = (window.innerHeight / 2 - e.clientY) / 70;
+      document.getElementById('mdt').style.transform = `rotateY(${x}deg) rotateX(${-y + 5}deg)`;
     });
 
-    // שעון
-    function updateClock() {
-      document.getElementById('time').innerText = new Date().toLocaleTimeString('he-IL');
+    // סאונד קשר (Radio Static) - פועל בלחיצה ראשונה על הדף
+    let audioStarted = false;
+    function startRadio() {
+      if (audioStarted) return;
+      audioStarted = true;
+      const ctx = new AudioContext();
+      const bufferSize = 2 * ctx.sampleRate,
+      noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate),
+      output = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = Math.random() * 2 - 1;
+      }
+      const whiteNoise = ctx.createBufferSource();
+      whiteNoise.buffer = noiseBuffer;
+      whiteNoise.loop = true;
+      const gainNode = ctx.createGain();
+      gainNode.gain.value = 0.01; // ווליום נמוך מאוד לאווירה
+      whiteNoise.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      whiteNoise.start();
     }
-    setInterval(updateClock, 1000);
 
-    // רקע חלקיקים יוקרתי (חלקיקי זהב צפים)
-    const canvas = document.getElementById('bg-layers');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    let particles = Array(60).fill().map(() => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.5,
-      s: Math.random() * 0.3
-    }));
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "rgba(197, 160, 89, 0.2)";
-      particles.forEach(p => {
-        p.y -= p.s;
-        if (p.y < 0) p.y = canvas.height;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      requestAnimationFrame(draw);
-    }
-    draw();
+    // לוג רץ בצד
+    const logItems = [
+      "> 10-4, UNIT S-01",
+      "> SCANNING PLATE: 24GSD88",
+      "> DATABASE LINK ESTABLISHED",
+      "> WARNING: HIGH SPEED PURSUIT IN AREA",
+      "> SIGNAL STRENGTH: OPTIMAL"
+    ];
+    let logIdx = 0;
+    setInterval(() => {
+      const log = document.getElementById('log');
+      log.innerHTML += `<br>> ${logItems[logIdx]}`;
+      log.scrollTop = log.scrollHeight;
+      logIdx = (logIdx + 1) % logItems.length;
+    }, 4000);
   </script>
 </body>
 </html>
