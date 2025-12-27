@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <title>ADAM DRAKE | GSD ELITE</title>
+  <title>ADAM DRAKE | GSD STARFALL</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap');
@@ -19,87 +19,87 @@
       margin: 0; background: var(--bg-dark); color: #fff;
       font-family: 'Rajdhani', sans-serif; height: 100vh;
       display: flex; align-items: center; justify-content: center;
-      overflow: hidden; perspective: 1000px;
+      overflow: hidden;
     }
 
-    /* רקע שכבות (נשמה של עומק) */
-    .bg-layer {
-      position: fixed; inset: -10%; width: 120%; height: 120%;
-      background: radial-gradient(circle at center, #111 0%, #000 100%);
-      z-index: -1;
-    }
-    .particles {
-      position: fixed; inset: 0;
-      background-image: radial-gradient(var(--gold) 1px, transparent 1px);
-      background-size: 50px 50px; opacity: 0.1; z-index: 0;
+    /* --- רקע כוכבים --- */
+    #space {
+      position: fixed; inset: 0; z-index: -1;
+      background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
     }
 
-    /* אנימציית "נחיתה מהחלל" */
-    @keyframes entryBlast {
-      0% { transform: scale(5) translateZ(500px); filter: blur(20px); opacity: 0; }
-      100% { transform: scale(1) translateZ(0); filter: blur(0); opacity: 1; }
+    /* הילת עכבר */
+    .mouse-light {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(circle 150px at var(--x, 50%) var(--y, 50%), rgba(255, 204, 0, 0.08), transparent 80%);
     }
 
+    /* כוכבים נופלים */
+    .shooting-star {
+      position: absolute; top: -10px; width: 2px; height: 2px;
+      background: #fff; border-radius: 50%;
+      box-shadow: 0 0 10px #fff, 0 0 20px #fff;
+      animation: shoot 3s linear; pointer-events: none;
+    }
+    @keyframes shoot {
+      0% { transform: translateX(0) translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateX(1000px) translateY(1000px) scale(0); opacity: 0; }
+    }
+
+    /* --- קונטיינר מרכזי (ללא תנועת עכבר) --- */
     .main-container {
       position: relative; z-index: 10;
       width: 480px; text-align: center;
       animation: entryBlast 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* תמונה עם מסגרת אנרגיה */
+    @keyframes entryBlast {
+      0% { transform: scale(0.8); opacity: 0; filter: blur(10px); }
+      100% { transform: scale(1); opacity: 1; filter: blur(0); }
+    }
+
     .profile-container {
       position: relative; width: 180px; height: 180px; margin: 0 auto 30px;
       padding: 10px; border: 2px solid var(--gold);
       clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
       background: rgba(255, 204, 0, 0.05);
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
     }
     .profile-img { 
       width: 100%; height: 100%; object-fit: cover; 
-      clip-path: inherit; filter: grayscale(20%) contrast(1.1);
+      clip-path: inherit;
     }
 
-    /* שם עם אפקט גליץ' */
     .glitch-name {
       font-family: 'Orbitron', sans-serif; font-size: 45px; font-weight: 900;
       letter-spacing: 4px; margin: 0; color: #fff;
-      text-shadow: 2px 2px var(--gold-glow);
-      position: relative;
+      text-shadow: 0 0 15px var(--gold-glow);
     }
 
     .rank-tag {
       font-size: 14px; letter-spacing: 10px; color: var(--gold);
-      margin-bottom: 40px; text-transform: uppercase;
-      opacity: 0.8; font-weight: bold;
+      margin-bottom: 40px; text-transform: uppercase; font-weight: bold;
     }
 
-    /* כפתורי זיג-זג עם נשמה */
     .link-stack { display: flex; flex-direction: column; gap: 15px; }
     
     .btn {
       position: relative; display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 30px; background: rgba(20, 20, 20, 0.8);
-      border-left: 5px solid var(--gold); border-right: 1px solid rgba(255,204,0,0.2);
+      padding: 20px 30px; background: rgba(15, 15, 15, 0.9);
+      border-left: 5px solid var(--gold); border-right: 1px solid rgba(255,204,0,0.1);
       color: #fff; text-decoration: none; font-weight: 700; font-size: 18px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: hidden;
+      transition: 0.3s ease;
     }
-
-    /* כניסת זיג-זג */
-    .btn:nth-child(odd) { transform: translateX(-50px); opacity: 0; animation: slideIn 0.5s forwards 0.8s; }
-    .btn:nth-child(even) { transform: translateX(50px); opacity: 0; animation: slideIn 0.5s forwards 1s; }
-    @keyframes slideIn { to { transform: translateX(0); opacity: 1; } }
 
     .btn:hover {
       background: var(--gold); color: #000;
-      box-shadow: -10px 0 20px var(--gold-glow);
-      transform: scale(1.05) translateX(10px);
+      box-shadow: 0 0 25px var(--gold-glow);
+      transform: translateX(10px);
     }
 
-    /* לוגואים בעיצוב "נקי וחד" */
     .btn i { font-size: 24px; color: var(--gold); transition: 0.3s; }
-    .btn:hover i { color: #000; transform: rotate(-10deg) scale(1.2); }
+    .btn:hover i { color: #000; }
 
-    /* שעון בתחתית */
     .footer {
       margin-top: 50px; font-family: 'Orbitron', sans-serif;
       font-size: 12px; color: var(--gold); display: flex;
@@ -107,19 +107,18 @@
       padding-top: 15px;
     }
 
-    /* אפקט רעידה (Shake) בלחיצה */
+    /* רעידה קלה בלחיצה */
     .impact { animation: shake 0.2s ease-in-out; }
     @keyframes shake {
       0%, 100% { transform: translate(0,0); }
-      25% { transform: translate(-5px, 5px); }
-      75% { transform: translate(5px, -5px); }
+      50% { transform: translate(-5px, 2px); }
     }
   </style>
 </head>
 <body id="main">
 
-  <div class="bg-layer" id="bg"></div>
-  <div class="particles"></div>
+  <canvas id="space"></canvas>
+  <div class="mouse-light" id="cursor-light"></div>
 
   <div class="main-container" id="container">
     <div class="profile-container" onclick="triggerImpact()">
@@ -130,22 +129,10 @@
     <div class="rank-tag">SHERIFF GSD</div>
 
     <div class="link-stack">
-      <a href="https://discord.gg/TrvqDRE7DK" class="btn" onclick="triggerImpact()">
-        <span>DISCORD / COMMS</span>
-        <i class="fab fa-discord"></i>
-      </a>
-      <a href="https://kick.com/sheriff-drakes" class="btn" onclick="triggerImpact()">
-        <span>KICK / LIVE</span>
-        <i class="fa-solid fa-bolt"></i>
-      </a>
-      <a href="https://www.youtube.com/@sheriffdrakes" class="btn" onclick="triggerImpact()">
-        <span>YOUTUBE / DATA</span>
-        <i class="fab fa-youtube"></i>
-      </a>
-      <a href="https://www.instagram.com/adam.drakes" class="btn" onclick="triggerImpact()">
-        <span>INSTAGRAM / FEED</span>
-        <i class="fab fa-instagram"></i>
-      </a>
+      <a href="https://discord.gg/TrvqDRE7DK" class="btn"><span>DISCORD / COMMS</span><i class="fab fa-discord"></i></a>
+      <a href="https://kick.com/sheriff-drakes" class="btn"><span>KICK / LIVE</span><i class="fa-solid fa-bolt"></i></a>
+      <a href="https://www.youtube.com/@sheriffdrakes" class="btn"><span>YOUTUBE / DATA</span><i class="fab fa-youtube"></i></a>
+      <a href="https://www.instagram.com/adam.drakes" class="btn"><span>INSTAGRAM / FEED</span><i class="fab fa-instagram"></i></a>
     </div>
 
     <div class="footer">
@@ -156,23 +143,63 @@
   </div>
 
   <script>
-    // שעון
+    // 1. שעון
     function updateClock() {
       document.getElementById('clock').innerText = new Date().toLocaleTimeString('he-IL');
     }
     setInterval(updateClock, 1000);
     updateClock();
 
-    // הטיה ותנועת רקע (Parallax)
+    // 2. הילת עכבר
+    const light = document.getElementById('cursor-light');
     document.addEventListener('mousemove', (e) => {
-      const x = (window.innerWidth / 2 - e.clientX) / 40;
-      const y = (window.innerHeight / 2 - e.clientY) / 40;
-      
-      document.getElementById('container').style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
-      document.getElementById('bg').style.transform = `translate(${x*2}px, ${y*2}px) scale(1.1)`;
+      light.style.setProperty('--x', e.clientX + 'px');
+      light.style.setProperty('--y', e.clientY + 'px');
     });
 
-    // אפקט מכה/שקשוק
+    // 3. יצירת כוכבים מנצנצים ברקע
+    const canvas = document.getElementById('space');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    let stars = [];
+    for(let i=0; i<150; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 1.5,
+        opacity: Math.random(),
+        speed: Math.random() * 0.02
+      });
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(s => {
+        s.opacity += s.speed;
+        if(s.opacity > 1 || s.opacity < 0) s.speed *= -1;
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(s.opacity)})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+        ctx.fill();
+      });
+      requestAnimationFrame(drawStars);
+    }
+    drawStars();
+
+    // 4. כוכבים נופלים רנדומליים
+    function createShootingStar() {
+      const star = document.createElement('div');
+      star.className = 'shooting-star';
+      star.style.left = Math.random() * window.innerWidth + 'px';
+      star.style.top = Math.random() * (window.innerHeight / 2) + 'px';
+      document.body.appendChild(star);
+      setTimeout(() => star.remove(), 3000);
+    }
+    setInterval(createShootingStar, 4000);
+
+    // 5. אפקט מכה
     function triggerImpact() {
       const c = document.getElementById('container');
       c.classList.add('impact');
