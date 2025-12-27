@@ -8,6 +8,7 @@
   <style>
     :root {
       --gsd-gold: #d4af37;
+      --gsd-gold-bright: #ffdf7e;
       --bg-black: #050505;
       --card-bg: #0d0d0d;
       --link-bg: #141414;
@@ -29,13 +30,15 @@
       perspective: 1000px;
     }
 
+    /* הילה מחוזקת שעוקבת אחרי העכבר */
     .mouse-glow {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(212, 175, 55, 0.07) 0%, transparent 60%);
+      /* הגברתי את ה-Opacity מ-0.07 ל-0.15 ואת הרדיוס ל-70% */
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(212, 175, 55, 0.15) 0%, transparent 70%);
       pointer-events: none;
       z-index: 1;
     }
@@ -46,17 +49,18 @@
       background: var(--card-bg);
       width: 400px;
       max-width: 90%;
-      padding: 40px 30px;
+      padding: 45px 30px;
       border-radius: 35px;
-      border: 1px solid rgba(255,255,255,0.02);
+      /* הוספתי גבול קצת יותר בולט שגם מגיב לתאורה */
+      border: 1px solid rgba(212, 175, 55, 0.1);
       text-align: center;
-      box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+      box-shadow: 0 50px 100px rgba(0,0,0,0.9);
       transform-style: preserve-3d;
     }
 
     .profile-wrap {
-      width: 110px;
-      height: 110px;
+      width: 115px;
+      height: 115px;
       margin: 0 auto 20px;
       position: relative;
     }
@@ -67,25 +71,25 @@
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid var(--gsd-gold);
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); /* תאורה חזקה יותר סביב התמונה */
     }
 
-    /* עדכון ל-Sheriff GSD */
     .gsd-tag {
       background: var(--gsd-gold);
       color: #000;
       display: inline-block;
-      padding: 3px 15px;
-      border-radius: 5px;
+      padding: 4px 18px;
+      border-radius: 6px;
       font-weight: 900;
       font-size: 11px;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
       text-transform: uppercase;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
     }
 
     .name {
-      font-size: 30px;
+      font-size: 32px;
       font-weight: 800;
       margin: 0;
       letter-spacing: 1px;
@@ -95,18 +99,17 @@
       color: #fff;
       font-size: 14px;
       font-weight: 600;
-      letter-spacing: 4px;
-      margin-top: 5px;
+      letter-spacing: 5px;
+      margin-top: 6px;
       display: block;
-      opacity: 0.8;
+      opacity: 0.9;
     }
 
     .divider {
       height: 1px;
-      width: 40px;
-      background: var(--gsd-gold);
+      width: 50px;
+      background: linear-gradient(90deg, transparent, var(--gsd-gold), transparent);
       margin: 25px auto;
-      opacity: 0.4;
     }
 
     .links-container {
@@ -123,7 +126,7 @@
       padding: 16px;
       background: var(--link-bg);
       border: 1px solid rgba(255,255,255,0.03);
-      border-radius: 15px;
+      border-radius: 18px;
       text-decoration: none;
       color: #fff;
       font-weight: 600;
@@ -131,27 +134,28 @@
     }
 
     .gsd-link:hover {
-      background: #1a1a1a;
+      background: #1c1c1c;
       border-color: var(--gsd-gold);
-      transform: translateY(-3px) scale(1.02);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
 
     .gsd-link svg { width: 18px; height: 18px; fill: #fff; }
-    .gsd-link:hover svg { fill: var(--gsd-gold); }
+    .gsd-link:hover svg { fill: var(--gsd-gold-bright); filter: drop-shadow(0 0 5px var(--gsd-gold)); }
 
-    /* עדכון כיתוב תחתון */
+    /* העדכון שביקשת למטה */
     .gsd-footer {
       margin-top: 35px;
       font-size: 11px;
       color: var(--gsd-gold);
-      font-weight: 700;
-      letter-spacing: 2px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
     }
 
     .gsd-footer span {
       color: rgba(255,255,255,0.3);
-      margin-right: 5px;
+      margin-right: 4px;
       font-weight: 400;
     }
 
@@ -192,7 +196,7 @@
     </div>
 
     <div class="gsd-footer">
-      Sheriff GSD <span>// Division of State Assets</span>
+      GSD <span>// Grapeseed Sheriff's Department</span>
     </div>
   </div>
 
@@ -201,11 +205,13 @@
     const card = document.getElementById('card');
 
     document.addEventListener('mousemove', (e) => {
+      // עדכון הילה (תאורת רקע)
       glow.style.setProperty('--x', e.clientX + 'px');
       glow.style.setProperty('--y', e.clientY + 'px');
 
-      const xAxis = (window.innerWidth / 2 - e.clientX) / 30;
-      const yAxis = (window.innerHeight / 2 - e.clientY) / 30;
+      // עדכון הטיית כרטיס
+      const xAxis = (window.innerWidth / 2 - e.clientX) / 25;
+      const yAxis = (window.innerHeight / 2 - e.clientY) / 25;
       card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
     });
 
