@@ -2,151 +2,182 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <title>ADAM DRAKE | GSD UNLEASHED</title>
+  <title>ADAM DRAKE | GSD ELITE</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
-    /* פונטים של גיימינג אמיתי */
-    @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Syncopate:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap');
 
     :root {
       --gold: #ffcc00;
-      --electric: #fff;
+      --gold-glow: rgba(255, 204, 0, 0.6);
+      --bg-dark: #000;
     }
+
+    * { box-sizing: border-box; cursor: crosshair; }
 
     body {
-      margin: 0; background: #000; color: #fff;
-      font-family: 'Syncopate', sans-serif;
-      height: 100vh; overflow: hidden;
+      margin: 0; background: var(--bg-dark); color: #fff;
+      font-family: 'Rajdhani', sans-serif; height: 100vh;
       display: flex; align-items: center; justify-content: center;
+      overflow: hidden; perspective: 1000px;
     }
 
-    /* אפקט רעש של מסך טלוויזיה ישן */
-    body::after {
-      content: ""; position: fixed; inset: 0;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Noise_Texture.png');
-      opacity: 0.08; pointer-events: none; z-index: 100;
+    /* רקע שכבות (נשמה של עומק) */
+    .bg-layer {
+      position: fixed; inset: -10%; width: 120%; height: 120%;
+      background: radial-gradient(circle at center, #111 0%, #000 100%);
+      z-index: -1;
+    }
+    .particles {
+      position: fixed; inset: 0;
+      background-image: radial-gradient(var(--gold) 1px, transparent 1px);
+      background-size: 50px 50px; opacity: 0.1; z-index: 0;
     }
 
-    /* אנימציית נפילה "מתרסקת" */
-    @keyframes smashDown {
-      0% { transform: translateY(-1000px) scale(2); opacity: 0; }
-      70% { transform: translateY(0) scale(0.9); }
-      85% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+    /* אנימציית "נחיתה מהחלל" */
+    @keyframes entryBlast {
+      0% { transform: scale(5) translateZ(500px); filter: blur(20px); opacity: 0; }
+      100% { transform: scale(1) translateZ(0); filter: blur(0); opacity: 1; }
     }
 
-    .wrapper {
-      position: relative; width: 550px;
-      animation: smashDown 0.5s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+    .main-container {
+      position: relative; z-index: 10;
+      width: 480px; text-align: center;
+      animation: entryBlast 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* הברקים המטורפים */
-    .lightning-bolt {
-      position: absolute; background: var(--gold);
-      box-shadow: 0 0 30px var(--gold), 0 0 60px #fff;
-      z-index: -1; opacity: 0;
-      animation: flash 0.2s infinite;
+    /* תמונה עם מסגרת אנרגיה */
+    .profile-container {
+      position: relative; width: 180px; height: 180px; margin: 0 auto 30px;
+      padding: 10px; border: 2px solid var(--gold);
+      clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+      background: rgba(255, 204, 0, 0.05);
     }
-    .l1 { width: 2px; height: 100px; top: -50px; left: 20%; transform: rotate(20deg); }
-    .l2 { width: 2px; height: 150px; bottom: -80px; right: 10%; transform: rotate(-15deg); }
-
-    @keyframes flash {
-      0%, 100% { opacity: 0; }
-      50% { opacity: 1; }
+    .profile-img { 
+      width: 100%; height: 100%; object-fit: cover; 
+      clip-path: inherit; filter: grayscale(20%) contrast(1.1);
     }
 
-    /* כרטיס שבור ולא סימטרי */
-    .hero-card {
-      background: #080808; border: 4px solid #fff;
-      padding: 40px; transform: skew(-3deg);
-      box-shadow: 15px 15px 0 var(--gold);
+    /* שם עם אפקט גליץ' */
+    .glitch-name {
+      font-family: 'Orbitron', sans-serif; font-size: 45px; font-weight: 900;
+      letter-spacing: 4px; margin: 0; color: #fff;
+      text-shadow: 2px 2px var(--gold-glow);
       position: relative;
     }
 
-    /* תמונה בסטייל "Wanted" */
-    .img-wrap {
-      width: 200px; height: 200px; margin: 0 auto 30px;
-      border: 5px solid var(--gold); transform: rotate(5deg);
-      overflow: hidden; position: relative;
-    }
-    .img-wrap img {
-      width: 100%; height: 100%; object-fit: cover;
-      filter: grayscale(1) contrast(1.5);
-    }
-    /* פס חשמל שרץ על התמונה */
-    .img-wrap::after {
-      content: ""; position: absolute; inset: 0;
-      background: linear-gradient(transparent, var(--gold), transparent);
-      height: 20%; width: 100%; top: -100%;
-      animation: scan 1s infinite;
-    }
-    @keyframes scan { to { top: 120%; } }
-
-    .name {
-      font-size: 50px; color: #fff; text-align: left;
-      margin: 0; font-family: 'Permanent Marker', cursive;
-      text-shadow: 4px 4px var(--gold);
-      transform: rotate(-2deg);
+    .rank-tag {
+      font-size: 14px; letter-spacing: 10px; color: var(--gold);
+      margin-bottom: 40px; text-transform: uppercase;
+      opacity: 0.8; font-weight: bold;
     }
 
-    .sub-text {
-      display: block; text-align: left; color: var(--gold);
-      font-size: 14px; margin-bottom: 30px; letter-spacing: 5px;
-    }
-
-    /* כפתורי אקשן */
-    .links { display: flex; flex-direction: column; gap: 10px; }
+    /* כפתורי זיג-זג עם נשמה */
+    .link-stack { display: flex; flex-direction: column; gap: 15px; }
+    
     .btn {
-      background: #fff; color: #000; padding: 15px;
-      text-decoration: none; font-weight: 900; font-size: 20px;
-      display: flex; justify-content: space-between; align-items: center;
-      transition: 0.1s; border: none; clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
-    }
-    .btn:hover {
-      background: var(--gold); transform: scale(1.05) skew(5deg);
-      box-shadow: -10px 10px 0 #fff;
+      position: relative; display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 30px; background: rgba(20, 20, 20, 0.8);
+      border-left: 5px solid var(--gold); border-right: 1px solid rgba(255,204,0,0.2);
+      color: #fff; text-decoration: none; font-weight: 700; font-size: 18px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
     }
 
+    /* כניסת זיג-זג */
+    .btn:nth-child(odd) { transform: translateX(-50px); opacity: 0; animation: slideIn 0.5s forwards 0.8s; }
+    .btn:nth-child(even) { transform: translateX(50px); opacity: 0; animation: slideIn 0.5s forwards 1s; }
+    @keyframes slideIn { to { transform: translateX(0); opacity: 1; } }
+
+    .btn:hover {
+      background: var(--gold); color: #000;
+      box-shadow: -10px 0 20px var(--gold-glow);
+      transform: scale(1.05) translateX(10px);
+    }
+
+    /* לוגואים בעיצוב "נקי וחד" */
+    .btn i { font-size: 24px; color: var(--gold); transition: 0.3s; }
+    .btn:hover i { color: #000; transform: rotate(-10deg) scale(1.2); }
+
+    /* שעון בתחתית */
     .footer {
-      margin-top: 30px; display: flex; justify-content: space-between;
-      font-family: monospace; font-size: 12px; color: #444;
+      margin-top: 50px; font-family: 'Orbitron', sans-serif;
+      font-size: 12px; color: var(--gold); display: flex;
+      justify-content: space-between; border-top: 1px solid rgba(255,204,0,0.2);
+      padding-top: 15px;
+    }
+
+    /* אפקט רעידה (Shake) בלחיצה */
+    .impact { animation: shake 0.2s ease-in-out; }
+    @keyframes shake {
+      0%, 100% { transform: translate(0,0); }
+      25% { transform: translate(-5px, 5px); }
+      75% { transform: translate(5px, -5px); }
     }
   </style>
 </head>
-<body>
+<body id="main">
 
-  <div class="wrapper">
-    <div class="lightning-bolt l1"></div>
-    <div class="lightning-bolt l2"></div>
+  <div class="bg-layer" id="bg"></div>
+  <div class="particles"></div>
 
-    <div class="hero-card">
-      <div class="img-wrap">
-        <img src="hero.png" alt="DRAKE">
-      </div>
+  <div class="main-container" id="container">
+    <div class="profile-container" onclick="triggerImpact()">
+      <img src="hero.png" class="profile-img">
+    </div>
 
-      <h1 class="name">ADAM DRAKE</h1>
-      <span class="sub-text">GSD // ELITE SHERIFF</span>
+    <h1 class="glitch-name">ADAM DRAKE</h1>
+    <div class="rank-tag">SHERIFF GSD</div>
 
-      <div class="links">
-        <a href="https://discord.gg/TrvqDRE7DK" class="btn"><span>DISCORD</span><i class="fab fa-discord"></i></a>
-        <a href="https://kick.com/sheriff-drakes" class="btn"><span>KICK LIVE</span><i class="fa-solid fa-bolt"></i></a>
-        <a href="https://www.youtube.com/@sheriffdrakes" class="btn"><span>YOUTUBE</span><i class="fab fa-youtube"></i></a>
-        <a href="https://www.instagram.com/adam.drakes" class="btn"><span>INSTAGRAM</span><i class="fab fa-instagram"></i></a>
-      </div>
+    <div class="link-stack">
+      <a href="https://discord.gg/TrvqDRE7DK" class="btn" onclick="triggerImpact()">
+        <span>DISCORD / COMMS</span>
+        <i class="fab fa-discord"></i>
+      </a>
+      <a href="https://kick.com/sheriff-drakes" class="btn" onclick="triggerImpact()">
+        <span>KICK / LIVE</span>
+        <i class="fa-solid fa-bolt"></i>
+      </a>
+      <a href="https://www.youtube.com/@sheriffdrakes" class="btn" onclick="triggerImpact()">
+        <span>YOUTUBE / DATA</span>
+        <i class="fab fa-youtube"></i>
+      </a>
+      <a href="https://www.instagram.com/adam.drakes" class="btn" onclick="triggerImpact()">
+        <span>INSTAGRAM / FEED</span>
+        <i class="fab fa-instagram"></i>
+      </a>
+    </div>
 
-      <div class="footer">
-        <span>EST. 2025</span>
-        <span id="clock">00:00:00</span>
-      </div>
+    <div class="footer">
+      <span>UNIT: S-01</span>
+      <span id="clock">00:00:00</span>
+      <span>STATUS: ELITE</span>
     </div>
   </div>
 
   <script>
+    // שעון
     function updateClock() {
       document.getElementById('clock').innerText = new Date().toLocaleTimeString('he-IL');
     }
     setInterval(updateClock, 1000);
     updateClock();
+
+    // הטיה ותנועת רקע (Parallax)
+    document.addEventListener('mousemove', (e) => {
+      const x = (window.innerWidth / 2 - e.clientX) / 40;
+      const y = (window.innerHeight / 2 - e.clientY) / 40;
+      
+      document.getElementById('container').style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+      document.getElementById('bg').style.transform = `translate(${x*2}px, ${y*2}px) scale(1.1)`;
+    });
+
+    // אפקט מכה/שקשוק
+    function triggerImpact() {
+      const c = document.getElementById('container');
+      c.classList.add('impact');
+      setTimeout(() => c.classList.remove('impact'), 200);
+    }
   </script>
 </body>
 </html>
