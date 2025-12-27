@@ -2,126 +2,119 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <title>ADAM DRAKE | GSD COMMAND</title>
+  <title>ADAM DRAKE | GSD COMMAND CENTER</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&family=Source+Code+Pro&display=swap');
 
     :root {
       --gold: #ffcc00;
-      --gold-glow: rgba(255, 204, 0, 0.3);
+      --gold-glow: rgba(255, 204, 0, 0.2);
     }
 
     body, html {
       margin: 0; padding: 0; width: 100%; height: 100vh;
-      background: #000; overflow: hidden;
+      background: #020202; overflow: hidden;
       display: flex; justify-content: center; align-items: center;
       font-family: 'Rajdhani', sans-serif;
     }
 
-    /* רקע קודים רצים */
-    #code-canvas {
-      position: fixed; inset: 0; z-index: -1; opacity: 0.1; pointer-events: none;
-    }
+    /* רקע קוד רץ (מטריקס) */
+    #bg-canvas { position: fixed; inset: 0; z-index: -2; opacity: 0.15; }
 
-    /* אור פנס עכבר */
+    /* אור עכבר (פנס) */
     .mouse-glow {
       position: fixed; inset: 0; pointer-events: none; z-index: 50;
       background: radial-gradient(circle 500px at var(--x, 50%) var(--y, 50%), var(--gold-glow), transparent 80%);
     }
 
-    /* מצלמות גוף (Bodycam Feeds) */
-    .bodycam {
-      position: fixed; width: 220px; height: 140px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: #050505; border-radius: 4px; overflow: hidden;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5); z-index: 5;
+    /* חלונות מבצעיים בצדדים (Intelligence Windows) */
+    .intel-box {
+      position: fixed; width: 220px; background: rgba(10, 10, 10, 0.8);
+      border: 1px solid rgba(255, 204, 0, 0.3); border-radius: 4px;
+      padding: 10px; font-family: 'Source Code Pro', monospace; color: var(--gold);
+      font-size: 10px; z-index: 5; box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
-    .bodycam::before {
-      content: "REC ● LIVE"; position: absolute; top: 10px; left: 10px;
-      color: #ff0000; font-size: 10px; font-weight: bold; z-index: 10;
-      animation: blink 1s infinite;
+    
+    .cam-label { border-bottom: 1px solid var(--gold); margin-bottom: 8px; font-weight: bold; padding-bottom: 3px; display: flex; justify-content: space-between; }
+    
+    .radar {
+      width: 100%; height: 100px; border: 1px solid rgba(255,204,0,0.2);
+      border-radius: 50%; position: relative; overflow: hidden; margin-top: 10px;
     }
-    .bodycam.cam-1 { top: 40px; left: 40px; animation: zig-left 1.2s forwards; }
-    .bodycam.cam-2 { bottom: 40px; right: 40px; animation: zig-right 1.2s forwards; }
+    .radar::after {
+      content: ""; position: absolute; inset: 0;
+      background: conic-gradient(from 0deg, transparent, var(--gold));
+      animation: rotate 3s linear infinite; opacity: 0.3;
+    }
+    @keyframes rotate { 100% { transform: rotate(360deg); } }
 
-    .cam-label {
-      position: absolute; bottom: 8px; left: 10px; color: #fff;
-      font-size: 9px; font-family: 'Source Code Pro'; z-index: 10; opacity: 0.7;
-    }
-
-    /* סרטון דמה (כאן תוכל להחליף לקישור אמיתי) */
-    .cam-video {
-      width: 100%; height: 100%; object-fit: cover; opacity: 0.5;
-      filter: grayscale(1) contrast(1.5) brightness(0.8);
-    }
+    .box-1 { top: 40px; right: 40px; animation: zig-right 1s forwards; }
+    .box-2 { bottom: 40px; left: 40px; animation: zig-left 1s forwards; }
 
     /* כרטיס ראשי בזיגזג */
     .main-card {
       position: relative; z-index: 20;
       width: 400px; padding: 50px 40px;
-      background: rgba(8, 8, 8, 0.95);
-      border: 1px solid var(--gold);
-      border-radius: 8px; text-align: center;
+      background: rgba(5, 5, 5, 0.95);
+      border: 1.5px solid var(--gold);
+      border-radius: 10px; text-align: center;
       box-shadow: 0 0 100px rgba(0,0,0,1);
-      animation: zig-right 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: zig-right 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    @keyframes zig-right {
-      0% { opacity: 0; transform: translateX(100px); }
-      100% { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes zig-left {
-      0% { opacity: 0; transform: translateX(-100px); }
-      100% { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes zig-right { 0% { opacity: 0; transform: translateX(150px); } 100% { opacity: 1; transform: translateX(0); } }
+    @keyframes zig-left { 0% { opacity: 0; transform: translateX(-150px); } 100% { opacity: 1; transform: translateX(0); } }
 
-    .img-wrap {
-      width: 130px; height: 130px; margin: 0 auto 30px;
-      border: 1px solid var(--gold); padding: 4px;
-    }
+    .img-wrap { width: 140px; height: 140px; margin: 0 auto 30px; border: 1px solid var(--gold); padding: 5px; border-radius: 8px; }
     .img-box img { width: 100%; height: 100%; object-fit: cover; }
 
-    .name { font-family: 'Orbitron', sans-serif; font-size: 34px; color: #fff; margin: 0; }
-    .rank { color: var(--gold); font-size: 10px; letter-spacing: 7px; margin-bottom: 30px; display: block; }
+    .name { font-family: 'Orbitron', sans-serif; font-size: 34px; color: #fff; margin: 0; letter-spacing: 2px; }
+    .rank { color: var(--gold); font-size: 11px; letter-spacing: 7px; margin-bottom: 30px; display: block; font-weight: bold; }
 
-    .btn-list { display: flex; flex-direction: column; gap: 10px; }
+    .btn-list { display: flex; flex-direction: column; gap: 12px; }
     .btn {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 15px 20px; background: rgba(255, 204, 0, 0.02);
-      border: 1px solid rgba(255, 204, 0, 0.1); color: #fff;
-      text-decoration: none; border-radius: 3px; font-size: 15px;
+      padding: 16px 22px; background: rgba(255, 204, 0, 0.03);
+      border: 1px solid rgba(255, 204, 0, 0.15); color: #fff;
+      text-decoration: none; border-radius: 4px; font-weight: bold;
       opacity: 0; animation: zig-left 0.8s forwards;
     }
     .btn:nth-child(1) { animation-delay: 0.8s; }
     .btn:nth-child(2) { animation-delay: 1s; }
     .btn:nth-child(3) { animation-delay: 1.2s; }
     .btn:nth-child(4) { animation-delay: 1.4s; }
+    .btn:hover { background: rgba(255, 204, 0, 0.2); border-color: var(--gold); }
 
-    .footer { margin-top: 35px; border-top: 1px solid rgba(255,204,0,0.1); padding-top: 20px; }
-    .gsd-text { color: var(--gold); font-size: 10px; letter-spacing: 3px; font-weight: bold; display: block; margin-bottom: 5px; }
-    #clock { font-family: 'Orbitron', sans-serif; font-size: 12px; color: #fff; opacity: 0.6; }
+    .footer { margin-top: 40px; border-top: 1px solid rgba(255,204,0,0.1); padding-top: 20px; }
+    .gsd-text { color: var(--gold); font-size: 11px; letter-spacing: 3px; font-weight: bold; display: block; }
+    #clock { font-family: 'Orbitron', sans-serif; font-size: 13px; color: #fff; opacity: 0.6; }
 
   </style>
 </head>
 <body>
 
-  <canvas id="code-canvas"></canvas>
+  <canvas id="bg-canvas"></canvas>
   <div class="mouse-glow" id="mouse-glow"></div>
 
-  <div class="bodycam cam-1">
-    <video class="cam-video" autoplay muted loop>
-      <source src="https://assets.mixkit.co/videos/preview/mixkit-security-camera-in-a-dark-hallway-34440-large.mp4" type="video/mp4">
-    </video>
-    <div class="cam-label">UNIT-01 // SWAT_ENTRY</div>
+  <div class="intel-box box-1">
+    <div class="cam-label"><span>SYSTEM STATUS</span><span style="color:red">● LIVE</span></div>
+    <div>CPU_LOAD: 42%</div>
+    <div>ENCRYPTION: AES_256</div>
+    <div>SCANNING_AREA: GRAPESEED</div>
+    <div class="radar"></div>
   </div>
 
-  <div class="bodycam cam-2">
-    <video class="cam-video" autoplay muted loop>
-      <source src="https://assets.mixkit.co/videos/preview/mixkit-policeman-holding-a-dog-on-a-leash-at-night-34438-large.mp4" type="video/mp4">
-    </video>
-    <div class="cam-label">UNIT-04 // K9_PURSUIT</div>
+  <div class="intel-box box-2">
+    <div class="cam-label"><span>UNIT TRACKER</span><span>ACTIVE</span></div>
+    <div>GSD-ADAM: ONLINE</div>
+    <div>K9-UNIT: SEARCHING...</div>
+    <div>SWAT_TEAM: STANDBY</div>
+    <div style="margin-top:10px; font-size: 8px; line-height: 1.2;">
+      > TRACING SIGNAL...<br>
+      > TARGET IDENTIFIED<br>
+      > NO THREAT DETECTED
+    </div>
   </div>
 
   <div class="main-card">
@@ -152,8 +145,8 @@
       glow.style.setProperty('--y', e.clientY + 'px');
     });
 
-    // קודים רצים (מטריקס זהב)
-    const canvas = document.getElementById('code-canvas');
+    // קוד רץ מאחור
+    const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let columns; const charSize = 14; let drops = [];
     function init() {
