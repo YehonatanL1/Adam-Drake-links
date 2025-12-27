@@ -2,220 +2,182 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <title>ADAM DRAKE | GSD TERMINAL</title>
+  <title>ADAM DRAKE | GSD ELITE</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Rajdhani:wght@500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap');
 
     :root {
       --gold: #ffcc00;
-      --gold-glow: rgba(255, 204, 0, 0.4);
-      --kick-green: #00e701;
+      --gold-glow: rgba(255, 204, 0, 0.6);
+      --bg-dark: #000;
     }
 
-    body, html {
-      margin: 0; padding: 0; width: 100%; height: 100vh;
-      background: #000; overflow: hidden;
-      display: grid; place-items: center;
-      font-family: 'Rajdhani', sans-serif;
+    * { box-sizing: border-box; cursor: crosshair; }
+
+    body {
+      margin: 0; background: var(--bg-dark); color: #fff;
+      font-family: 'Rajdhani', sans-serif; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; perspective: 1000px;
     }
 
-    /* אור עכבר ענקי ומטורף */
-    .mouse-glow {
-      position: fixed; inset: 0; pointer-events: none; z-index: 20;
-      background: radial-gradient(circle 450px at var(--x, 50%) var(--y, 50%), rgba(255, 204, 0, 0.18), transparent 80%);
+    /* רקע שכבות (נשמה של עומק) */
+    .bg-layer {
+      position: fixed; inset: -10%; width: 120%; height: 120%;
+      background: radial-gradient(circle at center, #111 0%, #000 100%);
+      z-index: -1;
+    }
+    .particles {
+      position: fixed; inset: 0;
+      background-image: radial-gradient(var(--gold) 1px, transparent 1px);
+      background-size: 50px 50px; opacity: 0.1; z-index: 0;
     }
 
-    /* רקע כוכבים */
-    #star-canvas { position: fixed; inset: 0; z-index: -1; }
-
-    /* כוכב נופל */
-    .shooting-star {
-      position: absolute; width: 3px; height: 3px; background: #fff;
-      box-shadow: 0 0 15px #fff; border-radius: 50%; pointer-events: none;
-      animation: shoot 1.5s linear forwards;
-    }
-    @keyframes shoot {
-      0% { transform: translate(0, 0) scale(1); opacity: 1; }
-      100% { transform: translate(800px, 800px) scale(0); opacity: 0; }
+    /* אנימציית "נחיתה מהחלל" */
+    @keyframes entryBlast {
+      0% { transform: scale(5) translateZ(500px); filter: blur(20px); opacity: 0; }
+      100% { transform: scale(1) translateZ(0); filter: blur(0); opacity: 1; }
     }
 
-    /* קונטיינר מרכזי (לפי התמונה) */
-    .main-card {
+    .main-container {
       position: relative; z-index: 10;
-      width: 450px; padding: 50px;
-      background: rgba(5, 5, 5, 0.95);
-      border: 2px solid var(--gold); /* מסגרת זהב חיצונית */
-      text-align: center;
-      box-shadow: 0 0 40px #000;
+      width: 480px; text-align: center;
+      animation: entryBlast 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* תמונת פרופיל עם מסגרת כפולה */
-    .profile-wrap {
-      width: 170px; height: 170px; margin: 0 auto 30px;
-      border: 1px solid var(--gold);
-      padding: 5px;
+    /* תמונה עם מסגרת אנרגיה */
+    .profile-container {
+      position: relative; width: 180px; height: 180px; margin: 0 auto 30px;
+      padding: 10px; border: 2px solid var(--gold);
+      clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+      background: rgba(255, 204, 0, 0.05);
     }
-    .profile-box {
-      width: 100%; height: 100%;
-      border: 1px solid var(--gold);
-      overflow: hidden;
-    }
-    .profile-box img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* שם עם הבהוב חשמלי */
-    .name {
-      font-family: 'Orbitron', sans-serif; font-size: 45px;
-      margin: 0; color: #fff; letter-spacing: 4px;
-      text-shadow: 0 0 15px var(--gold-glow);
-      animation: electric-flicker 5s infinite;
-    }
-    @keyframes electric-flicker {
-      0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; text-shadow: 0 0 15px var(--gold-glow); }
-      20%, 24%, 55% { opacity: 0.7; text-shadow: none; }
+    .profile-img { 
+      width: 100%; height: 100%; object-fit: cover; 
+      clip-path: inherit; filter: grayscale(20%) contrast(1.1);
     }
 
-    .rank {
-      color: var(--gold); font-size: 13px; letter-spacing: 10px;
-      margin-bottom: 45px; display: block; font-weight: bold;
-    }
-
-    /* כפתורים בעיצוב הטרמינל */
-    .btn-list { display: flex; flex-direction: column; gap: 15px; }
-    
-    .btn {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 30px; background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 204, 0, 0.1); color: #fff;
-      text-decoration: none; font-weight: bold; font-size: 18px;
-      transition: all 0.3s ease;
+    /* שם עם אפקט גליץ' */
+    .glitch-name {
+      font-family: 'Orbitron', sans-serif; font-size: 45px; font-weight: 900;
+      letter-spacing: 4px; margin: 0; color: #fff;
+      text-shadow: 2px 2px var(--gold-glow);
       position: relative;
     }
 
+    .rank-tag {
+      font-size: 14px; letter-spacing: 10px; color: var(--gold);
+      margin-bottom: 40px; text-transform: uppercase;
+      opacity: 0.8; font-weight: bold;
+    }
+
+    /* כפתורי זיג-זג עם נשמה */
+    .link-stack { display: flex; flex-direction: column; gap: 15px; }
+    
+    .btn {
+      position: relative; display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 30px; background: rgba(20, 20, 20, 0.8);
+      border-left: 5px solid var(--gold); border-right: 1px solid rgba(255,204,0,0.2);
+      color: #fff; text-decoration: none; font-weight: 700; font-size: 18px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    /* כניסת זיג-זג */
+    .btn:nth-child(odd) { transform: translateX(-50px); opacity: 0; animation: slideIn 0.5s forwards 0.8s; }
+    .btn:nth-child(even) { transform: translateX(50px); opacity: 0; animation: slideIn 0.5s forwards 1s; }
+    @keyframes slideIn { to { transform: translateX(0); opacity: 1; } }
+
     .btn:hover {
-      background: rgba(255, 204, 0, 0.1);
-      border-color: var(--gold);
-      transform: scale(1.02);
-      box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
+      background: var(--gold); color: #000;
+      box-shadow: -10px 0 20px var(--gold-glow);
+      transform: scale(1.05) translateX(10px);
     }
 
-    /* לוגו KICK - ירוק פיזי */
-    .btn-kick i { color: var(--kick-green); filter: drop-shadow(0 0 5px var(--kick-green)); }
-    .btn-kick:hover {
-      background: var(--kick-green);
-      color: #000;
-      border-color: #fff;
-    }
-    .btn-kick:hover i { color: #000; filter: none; }
+    /* לוגואים בעיצוב "נקי וחד" */
+    .btn i { font-size: 24px; color: var(--gold); transition: 0.3s; }
+    .btn:hover i { color: #000; transform: rotate(-10deg) scale(1.2); }
 
-    .btn i { font-size: 22px; }
-
-    /* פוטר טרמינל */
+    /* שעון בתחתית */
     .footer {
-      margin-top: 50px; display: flex; justify-content: space-between;
-      font-size: 11px; color: var(--gold); opacity: 0.6;
-      border-top: 1px solid rgba(255,204,0,0.1); padding-top: 15px;
-      font-family: monospace;
+      margin-top: 50px; font-family: 'Orbitron', sans-serif;
+      font-size: 12px; color: var(--gold); display: flex;
+      justify-content: space-between; border-top: 1px solid rgba(255,204,0,0.2);
+      padding-top: 15px;
+    }
+
+    /* אפקט רעידה (Shake) בלחיצה */
+    .impact { animation: shake 0.2s ease-in-out; }
+    @keyframes shake {
+      0%, 100% { transform: translate(0,0); }
+      25% { transform: translate(-5px, 5px); }
+      75% { transform: translate(5px, -5px); }
     }
   </style>
 </head>
-<body>
+<body id="main">
 
-  <canvas id="star-canvas"></canvas>
-  <div class="mouse-glow" id="mouse-glow"></div>
+  <div class="bg-layer" id="bg"></div>
+  <div class="particles"></div>
 
-  <div class="main-card">
-    <div class="profile-wrap">
-      <div class="profile-box">
-        <img src="hero.png" alt="ADAM DRAKE">
-      </div>
+  <div class="main-container" id="container">
+    <div class="profile-container" onclick="triggerImpact()">
+      <img src="hero.png" class="profile-img">
     </div>
 
-    <h1 class="name">ADAM DRAKE</h1>
-    <span class="rank">SHERIFF GSD</span>
+    <h1 class="glitch-name">ADAM DRAKE</h1>
+    <div class="rank-tag">SHERIFF GSD</div>
 
-    <div class="btn-list">
-      <a href="https://discord.gg/TrvqDRE7DK" class="btn">
-        <span>DISCORD // SECURE</span><i class="fab fa-discord"></i>
+    <div class="link-stack">
+      <a href="https://discord.gg/TrvqDRE7DK" class="btn" onclick="triggerImpact()">
+        <span>DISCORD / COMMS</span>
+        <i class="fab fa-discord"></i>
       </a>
-      <a href="https://kick.com/sheriff-drakes" class="btn btn-kick">
-        <span>KICK // LIVE FEED</span><i class="fa-solid fa-bolt"></i>
+      <a href="https://kick.com/sheriff-drakes" class="btn" onclick="triggerImpact()">
+        <span>KICK / LIVE</span>
+        <i class="fa-solid fa-bolt"></i>
       </a>
-      <a href="https://www.youtube.com/@sheriffdrakes" class="btn">
-        <span>YOUTUBE // DATA</span><i class="fab fa-youtube"></i>
+      <a href="https://www.youtube.com/@sheriffdrakes" class="btn" onclick="triggerImpact()">
+        <span>YOUTUBE / DATA</span>
+        <i class="fab fa-youtube"></i>
       </a>
-      <a href="https://www.instagram.com/adam.drakes" class="btn">
-        <span>INSTAGRAM // INTEL</span><i class="fab fa-instagram"></i>
+      <a href="https://www.instagram.com/adam.drakes" class="btn" onclick="triggerImpact()">
+        <span>INSTAGRAM / FEED</span>
+        <i class="fab fa-instagram"></i>
       </a>
     </div>
 
     <div class="footer">
-      <span>READY</span>
+      <span>UNIT: S-01</span>
       <span id="clock">00:00:00</span>
-      <span>GSD TERMINAL V5.0</span>
+      <span>STATUS: ELITE</span>
     </div>
   </div>
 
   <script>
-    // 1. שעון
+    // שעון
     function updateClock() {
-      document.getElementById('clock').innerText = new Date().toLocaleTimeString('he-IL', {hour12: false});
+      document.getElementById('clock').innerText = new Date().toLocaleTimeString('he-IL');
     }
     setInterval(updateClock, 1000);
     updateClock();
 
-    // 2. אור עכבר עוקב
+    // הטיה ותנועת רקע (Parallax)
     document.addEventListener('mousemove', (e) => {
-      const glow = document.getElementById('mouse-glow');
-      glow.style.setProperty('--x', e.clientX + 'px');
-      glow.style.setProperty('--y', e.clientY + 'px');
+      const x = (window.innerWidth / 2 - e.clientX) / 40;
+      const y = (window.innerHeight / 2 - e.clientY) / 40;
+      
+      document.getElementById('container').style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+      document.getElementById('bg').style.transform = `translate(${x*2}px, ${y*2}px) scale(1.1)`;
     });
 
-    // 3. כוכבים מנצנצים
-    const canvas = document.getElementById('star-canvas');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-
-    function initStars() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      stars = [];
-      for(let i=0; i<180; i++) {
-        stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          size: Math.random() * 2,
-          opacity: Math.random(),
-          v: Math.random() * 0.01 + 0.003
-        });
-      }
+    // אפקט מכה/שקשוק
+    function triggerImpact() {
+      const c = document.getElementById('container');
+      c.classList.add('impact');
+      setTimeout(() => c.classList.remove('impact'), 200);
     }
-
-    function animateStars() {
-      ctx.clearRect(0,0,canvas.width, canvas.height);
-      stars.forEach(s => {
-        s.opacity += s.v;
-        if(s.opacity > 1 || s.opacity < 0) s.v *= -1;
-        ctx.fillStyle = `rgba(255,255,255,${Math.abs(s.opacity)})`;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
-        ctx.fill();
-      });
-      requestAnimationFrame(animateStars);
-    }
-    window.addEventListener('resize', initStars);
-    initStars();
-    animateStars();
-
-    // 4. כוכב נופל רנדומלי
-    setInterval(() => {
-      const s = document.createElement('div');
-      s.className = 'shooting-star';
-      s.style.left = Math.random() * (window.innerWidth - 300) + 'px';
-      s.style.top = Math.random() * (window.innerHeight / 2) + 'px';
-      document.body.appendChild(s);
-      setTimeout(() => s.remove(), 1500);
-    }, 4500);
   </script>
 </body>
 </html>
