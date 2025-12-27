@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <title>ADAM DRAKE | GSD SUPERNOVA</title>
+  <title>ADAM DRAKE | GSD OFFICIAL</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&display=swap');
@@ -19,32 +19,32 @@
       font-family: 'Rajdhani', sans-serif;
     }
 
-    /* אור עכבר ענקי ודומיננטי */
+    /* אור עכבר דומיננטי */
     .mouse-glow {
       position: fixed; inset: 0; pointer-events: none; z-index: 50;
       background: radial-gradient(circle 600px at var(--x, 50%) var(--y, 50%), var(--gold-glow), transparent 80%);
     }
 
-    /* רקע כוכבים צפוף מאוד */
+    /* רקע כוכבים צפוף (800 כוכבים) */
     #star-canvas { position: fixed; inset: 0; z-index: -1; opacity: 0.8; }
 
-    /* כוכבים נופלים - מטר מטאורים */
+    /* כוכבים נופלים */
     .shooting-star {
       position: absolute; width: 2px; height: 2px; background: #fff;
-      box-shadow: 0 0 10px #fff, 0 0 20px #fff; border-radius: 50%;
+      box-shadow: 0 0 10px #fff; border-radius: 50%;
       pointer-events: none; z-index: 1;
       animation: shoot 1s linear forwards;
     }
     @keyframes shoot {
-      0% { transform: translate(0, 0) scale(1); opacity: 1; }
-      100% { transform: translate(600px, 600px) scale(0); opacity: 0; }
+      0% { transform: translate(0, 0); opacity: 1; }
+      100% { transform: translate(600px, 600px); opacity: 0; }
     }
 
-    /* כרטיס - כניסה מצד ימין (זיגזג) */
+    /* אנימציית זיגזג לכרטיס הראשי (מימין) */
     .main-card {
       position: relative; z-index: 10;
-      width: 420px; padding: 55px 40px;
-      background: rgba(5, 5, 5, 0.97);
+      width: 420px; padding: 50px 40px;
+      background: rgba(5, 5, 5, 0.98);
       border: 1.5px solid var(--gold);
       border-radius: 12px; text-align: center;
       box-shadow: 0 0 80px rgba(0,0,0,1);
@@ -52,8 +52,8 @@
     }
 
     @keyframes zig-right {
-      0% { opacity: 0; transform: translateX(150px) rotate(2deg); }
-      100% { opacity: 1; transform: translateX(0) rotate(0deg); }
+      0% { opacity: 0; transform: translateX(150px); }
+      100% { opacity: 1; transform: translateX(0); }
     }
 
     .img-wrap {
@@ -69,20 +69,19 @@
     .name {
       font-family: 'Orbitron', sans-serif; font-size: 38px;
       margin: 0; color: #fff; letter-spacing: 2px;
-      text-shadow: 0 0 15px var(--gold-glow);
     }
 
     .rank {
       color: var(--gold); font-size: 11px; letter-spacing: 8px;
-      margin-bottom: 40px; display: block; font-weight: bold;
+      margin-bottom: 35px; display: block; font-weight: bold;
     }
 
-    /* כפתורים - כניסה מצד שמאל (זיגזג) */
+    /* כפתורים בזיגזג (משמאל) */
     .btn-list { display: flex; flex-direction: column; gap: 12px; }
     
     .btn {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 25px; background: rgba(255, 255, 255, 0.02);
+      padding: 16px 22px; background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 204, 0, 0.1); color: #fff;
       text-decoration: none; font-weight: 700; font-size: 16px;
       border-radius: 4px; opacity: 0;
@@ -102,30 +101,38 @@
     .btn:hover {
       background: rgba(255, 204, 0, 0.15);
       border-color: var(--gold);
-      transform: scale(1.04);
-      box-shadow: 0 0 30px var(--gold-glow);
+      transform: scale(1.03);
     }
 
-    .btn i { font-size: 18px; color: var(--gold); }
-
+    /* פוטר מעודכן עם GSD המלא */
     .footer {
-      margin-top: 50px; border-top: 1px solid rgba(255,204,0,0.15);
-      padding-top: 20px;
+      margin-top: 40px; border-top: 1px solid rgba(255,204,0,0.15);
+      padding-top: 20px; text-align: center;
+      opacity: 0; animation: fade-up 1s ease forwards 1.8s;
+    }
+
+    @keyframes fade-up {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 0.8; transform: translateY(0); }
+    }
+
+    .gsd-text {
+      color: var(--gold); font-size: 11px; letter-spacing: 3px;
+      margin-bottom: 8px; font-weight: bold; display: block;
+      text-transform: uppercase;
     }
 
     #clock {
-      font-family: 'Orbitron', sans-serif; font-size: 14px;
-      color: var(--gold); letter-spacing: 3px;
+      font-family: 'Orbitron', sans-serif; font-size: 13px;
+      color: #fff; opacity: 0.6; letter-spacing: 2px;
     }
 
-    .lightning {
-      position: absolute; inset: 0; z-index: -1; opacity: 0;
-    }
+    /* ברקים */
+    .lightning { position: absolute; inset: 0; z-index: -1; opacity: 0; }
     .flash { animation: flash-hit 0.15s ease-out; }
     @keyframes flash-hit {
-      0% { opacity: 0; }
-      50% { opacity: 1; box-shadow: inset 0 0 50px #fff, 0 0 40px var(--gold); }
-      100% { opacity: 0; }
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; box-shadow: inset 0 0 50px #fff; }
     }
   </style>
 </head>
@@ -139,7 +146,7 @@
     
     <div class="img-wrap">
       <div class="img-box">
-        <img src="hero.png" alt="DRAKE">
+        <img src="hero.png" alt="ADAM DRAKE">
       </div>
     </div>
 
@@ -162,6 +169,7 @@
     </div>
 
     <div class="footer">
+      <span class="gsd-text">GRAPESEED SHERIFF'S DEPARTMENT</span>
       <div id="clock">00:00:00</div>
     </div>
   </div>
@@ -178,25 +186,14 @@
       glow.style.setProperty('--y', e.clientY + 'px');
     });
 
-    // מערכת כוכבים סופר-מאסיבית (800 כוכבים)
     const canvas = document.getElementById('star-canvas');
     const ctx = canvas.getContext('2d');
     let stars = [];
-
     function init() {
       canvas.width = window.innerWidth; canvas.height = window.innerHeight;
       stars = [];
-      for(let i=0; i<800; i++) {
-        stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          size: Math.random() * 2,
-          o: Math.random(),
-          v: Math.random() * 0.05 + 0.02 // ניצנוץ מהיר מאוד
-        });
-      }
+      for(let i=0; i<800; i++) stars.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, size:Math.random()*1.8, o:Math.random(), v:Math.random()*0.04+0.01});
     }
-
     function draw() {
       ctx.clearRect(0,0,canvas.width,canvas.height);
       stars.forEach(s => {
@@ -208,24 +205,22 @@
     }
     window.addEventListener('resize', init); init(); draw();
 
-    // כוכבים נופלים בתדירות מטורפת (כל 800 מילי-שנייה)
     setInterval(() => {
       const s = document.createElement('div');
       s.className = 'shooting-star';
-      s.style.left = Math.random() * (window.innerWidth) + 'px';
-      s.style.top = Math.random() * (window.innerHeight / 2) + 'px';
+      s.style.left = Math.random() * window.innerWidth + 'px';
+      s.style.top = Math.random() * (window.innerHeight/2) + 'px';
       document.body.appendChild(s);
       setTimeout(() => s.remove(), 1000);
-    }, 800);
+    }, 700);
 
-    // ברקים
     setInterval(() => {
       if(Math.random() > 0.6) {
         const b = document.getElementById('bolt');
         b.classList.add('flash');
         setTimeout(() => b.classList.remove('flash'), 150);
       }
-    }, 3500);
+    }, 4000);
   </script>
 </body>
 </html>
